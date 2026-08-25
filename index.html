@@ -1491,10 +1491,10 @@ try {
     </div>
   </section>
 
-  <hr class="divider">
+  <hr class="divider" id="guide-admission-hr">
 
-  <!-- ============ GUIDE D'ADMISSION ============ -->
-  <section class="tight">
+  <!-- ============ GUIDE D'ADMISSION (visible seulement avant inscription) ============ -->
+  <section class="tight" id="guide-admission-section">
     <div class="container">
       <div class="section-head">
         <div class="eyebrow" data-fr="Étape par étape" data-ht="Etap pa etap">Étape par étape</div>
@@ -3808,6 +3808,13 @@ function updateAuthUI(user) {
     spaceBtn.style.display = 'none';
   }
   if (adminBtn) adminBtn.style.display = isAdminUser(user) ? '' : 'none';
+
+  // Le guide "Comment rejoindre la communauté privée" n'est utile qu'aux
+  // visiteurs qui n'ont pas encore de compte — il disparaît une fois connecté.
+  const guideSection = document.getElementById('guide-admission-section');
+  const guideHr = document.getElementById('guide-admission-hr');
+  if (guideSection) guideSection.style.display = user ? 'none' : '';
+  if (guideHr) guideHr.style.display = user ? 'none' : '';
 
   // Le formulaire d'admission n'a plus de champ mot de passe : le compte existe
   // déjà (créé avant l'accès au site). On préremplit l'email avec le compte connecté.
