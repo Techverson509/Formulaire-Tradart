@@ -535,6 +535,35 @@ section.tight { padding: 44px 0; }
 .admin-status-select.status-ADMITTED { border-color: var(--green); color: var(--green); }
 .admin-status-select.status-REJECTED { border-color: var(--red); color: var(--red); }
 
+/* ---- Statut de candidature (vu par le membre) ---- */
+.my-status-box {
+  max-width: 420px;
+  margin: 0 auto 24px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.my-status-label { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+.my-status-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-hover);
+  color: var(--text-faint);
+}
+.my-status-badge.status-PENDING { border-color: var(--amber); color: var(--amber); background: rgba(251,191,36,0.1); }
+.my-status-badge.status-APPROVED { border-color: var(--gold); color: var(--gold); background: rgba(59,130,246,0.1); }
+.my-status-badge.status-PAID { border-color: #60a5fa; color: #60a5fa; background: rgba(96,165,250,0.1); }
+.my-status-badge.status-ADMITTED { border-color: var(--green); color: var(--green); background: rgba(52,211,153,0.1); }
+.my-status-badge.status-REJECTED { border-color: var(--red); color: var(--red); background: rgba(220,38,38,0.08); }
+.my-status-note { margin-top: 12px; font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+
 /* ---- Convertisseur de devises ---- */
 .fx-rates { display: flex; justify-content: center; gap: 14px; max-width: 400px; margin: 0 auto 24px; }
 .fx-rate-card { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; text-align: center; }
@@ -2065,10 +2094,16 @@ try {
 <section class="view" id="view-membre">
   <section class="tight">
     <div class="container">
-      <div class="section-head" style="margin-bottom:32px;">
+      <div class="section-head" style="margin-bottom:20px;">
         <div class="eyebrow" data-fr="Réservé aux membres" data-ht="Rezève pou manm yo">Réservé aux membres</div>
         <h2 data-fr="Idées Trading" data-ht="Ide Trading">Idées Trading</h2>
         <p data-fr="Idées et analyses de marché publiées chaque semaine par Traderson509, avec captures de graphiques." data-ht="Ide ak analiz mache Traderson509 pibliye chak semèn, ak foto grafik.">Idées et analyses de marché publiées chaque semaine par Traderson509, avec captures de graphiques.</p>
+      </div>
+
+      <div id="my-status-box" class="my-status-box" style="display:none;">
+        <div class="my-status-label" data-fr="Statut de ma candidature" data-ht="Estati kandidati mwen">Statut de ma candidature</div>
+        <span id="my-status-badge" class="my-status-badge">—</span>
+        <p id="my-status-note" class="my-status-note"></p>
       </div>
 
       <div class="text-center mt-24" style="margin-bottom:28px;">
@@ -2599,13 +2634,15 @@ const STEP_VIEW_MAP = { 1: 'view-presentation', 2: 'view-admission', 3: 'view-pa
 const VIEW_STEP_MAP = { 'view-presentation': 1, 'view-admission': 2, 'view-payment': 3, 'view-confirmation': 4 };
 
 // ---- Navigation entre vues ----
-// Le site entier exige désormais un compte connecté (sauf la page de connexion
-// elle-même), tel que demandé : toute personne qui arrive doit créer un compte
-// ou se connecter avant d'accéder à un quelconque contenu du site.
+// Seules certaines vues exigent un compte connecté (postuler, Espace Membre,
+// Boutique, Admin) — le reste du site (présentation, résultats, outils) reste
+// visible librement, pour que les visiteurs découvrent nos services avant de
+// s'inscrire.
+const PROTECTED_VIEWS = ['view-admission', 'view-membre', 'view-boutique'];
 let pendingProtectedView = null;
 
 function goToView(viewId) {
-  if (viewId !== 'view-login' && firebaseReady && !currentUser) {
+  if (PROTECTED_VIEWS.includes(viewId) && firebaseReady && !currentUser) {
     pendingProtectedView = viewId;
     viewId = 'view-login';
   }
@@ -2629,7 +2666,7 @@ function goToView(viewId) {
     stepper.style.display = 'none';
   }
 
-  if (viewId === 'view-membre') loadSetups();
+  if (viewId === 'view-membre') { loadSetups(); loadMyStatus(); }
   if (viewId === 'view-boutique') loadProducts();
   if (viewId === 'view-admin') loadAdminCandidates();
 
@@ -3059,71 +3096,91 @@ function initApplicationForm() {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    let isValid = true;
-    const data = {};
+    try {
+      let isValid = true;
+      const data = {};
 
-    const requiredFields = ['nom','prenom','email','whatsapp','pays','ville','age','niveau','experience','broker','objectifs','ameliorer','pourquoi'];
-    requiredFields.forEach(name => {
-      const el = form.elements[name];
-      const group = form.querySelector(`[data-field="${name}"]`);
-      const value = el.value.trim();
-      data[name] = value;
-      if (!value) {
-        group.classList.add('has-error');
+      // Filet de sécurité : si le champ email est vide (readonly) mais qu'un
+      // compte est bien connecté, on le repeuple avant toute validation, pour
+      // ne jamais bloquer la personne sur un champ qu'elle ne peut pas corriger.
+      const emailInput = form.elements['email'];
+      if (!emailInput.value.trim() && currentUser && currentUser.email) {
+        emailInput.value = currentUser.email;
+      }
+
+      const requiredFields = ['nom','prenom','email','whatsapp','pays','ville','age','niveau','experience','broker','objectifs','ameliorer','pourquoi'];
+      requiredFields.forEach(name => {
+        const el = form.elements[name];
+        const group = form.querySelector(`[data-field="${name}"]`);
+        const value = el.value.trim();
+        data[name] = value;
+        if (!value) {
+          group.classList.add('has-error');
+          isValid = false;
+        } else {
+          group.classList.remove('has-error');
+        }
+      });
+
+      const emailGroup = form.querySelector('[data-field="email"]');
+      const emailVal = data.email;
+      if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        emailGroup.classList.add('has-error');
+        isValid = false;
+      }
+
+      const marchesChecked = Array.from(form.querySelectorAll('input[name="marches"]:checked')).map(cb => cb.value);
+      const marchesGroup = form.querySelector('[data-field="marches"]');
+      data.marches = marchesChecked;
+      if (marchesChecked.length === 0) {
+        marchesGroup.classList.add('has-error');
         isValid = false;
       } else {
-        group.classList.remove('has-error');
+        marchesGroup.classList.remove('has-error');
       }
-    });
 
-    const emailGroup = form.querySelector('[data-field="email"]');
-    const emailVal = form.elements['email'].value.trim();
-    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-      emailGroup.classList.add('has-error');
-      isValid = false;
-    }
+      data.plateforme = form.elements['plateforme'].value;
 
-    const marchesChecked = Array.from(form.querySelectorAll('input[name="marches"]:checked')).map(cb => cb.value);
-    const marchesGroup = form.querySelector('[data-field="marches"]');
-    data.marches = marchesChecked;
-    if (marchesChecked.length === 0) {
-      marchesGroup.classList.add('has-error');
-      isValid = false;
-    } else {
-      marchesGroup.classList.remove('has-error');
-    }
+      ['engagement1'].forEach(name => {
+        const el = form.elements[name];
+        const group = form.querySelector(`[data-field="${name}"]`);
+        data[name] = el.checked;
+        if (!el.checked) {
+          group.classList.add('has-error');
+          isValid = false;
+        } else {
+          group.classList.remove('has-error');
+        }
+      });
+      // Champs facultatifs — inclus dans les données envoyées, sans bloquer la validation.
+      data.engagement2 = form.elements['engagement2'].checked;
+      data.engagement3 = form.elements['engagement3'].checked;
 
-    data.plateforme = form.elements['plateforme'].value;
+      const errorBanner = document.getElementById('application-error');
+      const accountError = document.getElementById('account-error');
+      accountError.style.display = 'none';
 
-    ['engagement1'].forEach(name => {
-      const el = form.elements[name];
-      const group = form.querySelector(`[data-field="${name}"]`);
-      data[name] = el.checked;
-      if (!el.checked) {
-        group.classList.add('has-error');
-        isValid = false;
-      } else {
-        group.classList.remove('has-error');
+      if (!isValid) {
+        errorBanner.style.display = 'block';
+        const firstError = form.querySelector('.has-error');
+        if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
       }
-    });
-    // Champs facultatifs — inclus dans les données envoyées, sans bloquer la validation.
-    data.engagement2 = form.elements['engagement2'].checked;
-    data.engagement3 = form.elements['engagement3'].checked;
+      errorBanner.style.display = 'none';
 
-    const errorBanner = document.getElementById('application-error');
-    const accountError = document.getElementById('account-error');
-    accountError.style.display = 'none';
-
-    if (!isValid) {
-      errorBanner.style.display = 'block';
-      const firstError = form.querySelector('.has-error');
-      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
+      TradArtState.set(data);
+      submitApplication(data);
+    } catch (err) {
+      console.error('Erreur lors de la validation du formulaire :', err);
+      const accountError = document.getElementById('account-error');
+      if (accountError) {
+        accountError.textContent = currentLang === 'fr'
+          ? "Une erreur inattendue est survenue. Réessayez, ou contactez le support si le problème persiste."
+          : "Gen yon erè ki fèt. Eseye ankò, oswa kontakte sipò a si pwoblèm nan kontinye.";
+        accountError.style.display = 'block';
+        accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
-    errorBanner.style.display = 'none';
-
-    TradArtState.set(data);
-    submitApplication(data);
   });
 }
 
@@ -3134,58 +3191,70 @@ function submitApplication(profileData) {
   const submitBtn = document.getElementById('admission-submit-btn');
   const accountError = document.getElementById('account-error');
 
-  if (!firebaseReady || !currentUser) {
-    // Pas de Firebase configuré, ou état de connexion perdu — on continue
-    // le parcours normalement sans bloquer (dégradation élégante).
-    goToView('view-payment');
-    return;
-  }
+  try {
+    if (!firebaseReady || !currentUser || typeof firebase === 'undefined') {
+      // Pas de Firebase configuré, ou état de connexion perdu — on continue
+      // le parcours normalement sans bloquer (dégradation élégante).
+      goToView('view-payment');
+      return;
+    }
 
-  submitBtn.disabled = true;
-  accountError.style.display = 'none';
+    submitBtn.disabled = true;
+    accountError.style.display = 'none';
 
-  const memberRef = firebase.firestore().collection('members').doc(currentUser.uid);
+    const memberRef = firebase.firestore().collection('members').doc(currentUser.uid);
 
-  memberRef.get()
-    .then((doc) => {
-      const existing = doc.exists ? doc.data() : {};
+    memberRef.get()
+      .then((doc) => {
+        const existing = doc.exists ? doc.data() : {};
 
-      // Un candidat ne peut pas postuler deux fois avec le même compte.
-      if (existing.accountType === 'applicant' && existing.status) {
-        const msg = {
-          fr: 'Vous avez déjà postulé à la communauté privée. Contactez la Secrétaire sur WhatsApp pour suivre votre demande.',
-          ht: 'Ou deja postule pou kominote prive a. Kontakte Sekretè a sou WhatsApp pou swiv demann ou.'
-        };
+        // Un candidat ne peut pas postuler deux fois avec le même compte.
+        if (existing.accountType === 'applicant' && existing.status) {
+          const msg = {
+            fr: 'Vous avez déjà postulé à la communauté privée. Contactez la Secrétaire sur WhatsApp pour suivre votre demande.',
+            ht: 'Ou deja postule pou kominote prive a. Kontakte Sekretè a sou WhatsApp pou swiv demann ou.'
+          };
+          submitBtn.disabled = false;
+          accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
+          accountError.style.display = 'block';
+          accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return Promise.reject({ code: 'already-applied' });
+        }
+
+        return memberRef.set({
+          ...profileData,
+          email: currentUser.email,
+          accountType: 'applicant',
+          status: 'PENDING',
+          createdAt: existing.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      })
+      .then((result) => {
+        if (result === undefined) return; // cas "déjà postulé" déjà géré ci-dessus
         submitBtn.disabled = false;
+        sendWelcomeEmail(currentUser.email, profileData.prenom, 'applicant');
+        goToView('view-payment');
+      })
+      .catch((err) => {
+        if (err && err.code === 'already-applied') return; // déjà affiché
+        console.error('submitApplication a échoué :', err);
+        submitBtn.disabled = false;
+        const msg = { fr: 'Une erreur est survenue. Veuillez réessayer.', ht: 'Gen yon erè ki fèt. Tanpri eseye ankò.' };
         accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
         accountError.style.display = 'block';
         accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return Promise.reject({ code: 'already-applied' });
-      }
-
-      return memberRef.set({
-        ...profileData,
-        email: currentUser.email,
-        accountType: 'applicant',
-        status: 'PENDING',
-        createdAt: existing.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-    })
-    .then((result) => {
-      if (result === undefined) return; // cas "déjà postulé" déjà géré ci-dessus
-      submitBtn.disabled = false;
-      sendWelcomeEmail(currentUser.email, profileData.prenom, 'applicant');
-      goToView('view-payment');
-    })
-    .catch((err) => {
-      if (err && err.code === 'already-applied') return; // déjà affiché
-      submitBtn.disabled = false;
-      const msg = { fr: 'Une erreur est survenue. Veuillez réessayer.', ht: 'Gen yon erè ki fèt. Tanpri eseye ankò.' };
-      accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
+      });
+  } catch (err) {
+    console.error('submitApplication (synchrone) a échoué :', err);
+    if (submitBtn) submitBtn.disabled = false;
+    if (accountError) {
+      accountError.textContent = currentLang === 'fr' ? 'Une erreur inattendue est survenue. Réessayez.' : 'Gen yon erè ki fèt. Eseye ankò.';
       accountError.style.display = 'block';
-      accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+    }
+    // Dégradation élégante : on laisse quand même la personne avancer.
+    goToView('view-payment');
+  }
 }
 
 // ---- Espace Membre : connexion / déconnexion / setups ----
@@ -3382,6 +3451,42 @@ function sendPasswordReset() {
 function memberLogout() {
   if (firebaseReady) firebase.auth().signOut();
   goToView('view-presentation');
+}
+
+// ---- Statut de candidature (affiché au membre lui-même) ----
+function loadMyStatus() {
+  const box = document.getElementById('my-status-box');
+  if (!box) return;
+  box.style.display = 'none';
+
+  if (!firebaseReady || !currentUser || typeof firebase === 'undefined') return;
+
+  firebase.firestore().collection('members').doc(currentUser.uid).get()
+    .then((doc) => {
+      if (!doc.exists) return;
+      const d = doc.data();
+      if (d.accountType !== 'applicant' || !d.status) return; // compte gratuit, ou n'a pas postulé
+
+      const badge = document.getElementById('my-status-badge');
+      const note = document.getElementById('my-status-note');
+      const statuses = ['PENDING', 'APPROVED', 'PAID', 'ADMITTED', 'REJECTED'];
+      statuses.forEach(s => badge.classList.remove(`status-${s}`));
+      badge.classList.add(`status-${d.status}`);
+      badge.textContent = d.status;
+
+      const notes = {
+        PENDING: { fr: "Votre candidature est en attente de vérification.", ht: "Kandidati ou an ap tann verifikasyon." },
+        APPROVED: { fr: "Votre candidature est approuvée — finalisez votre paiement avec la Secrétaire.", ht: "Kandidati ou apwouve — finalize peman ou ak Sekretè a." },
+        PAID: { fr: "Paiement confirmé — votre admission est en cours de finalisation.", ht: "Peman konfime — admisyon ou ap finalize." },
+        ADMITTED: { fr: "Bienvenue dans la communauté privée !", ht: "Byenveni nan kominote prive a!" },
+        REJECTED: { fr: "Votre candidature n'a pas été retenue. Contactez le support pour plus d'informations.", ht: "Kandidati ou pa t aksepte. Kontakte sipò a pou plis enfòmasyon." }
+      };
+      const n = notes[d.status];
+      note.textContent = n ? (currentLang === 'fr' ? n.fr : n.ht) : '';
+
+      box.style.display = 'block';
+    })
+    .catch((err) => console.warn('loadMyStatus a échoué :', err));
 }
 
 function loadSetups() {
