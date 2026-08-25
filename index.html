@@ -384,6 +384,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 8px;
 }
 .promo-banner-item p { font-size: 13px; color: var(--text-dim); }
+.promo-banner-htg { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin-top: 6px; }
 .promo-banner-note { margin-top: 16px; font-size: 11.5px; color: var(--text-faint); }
 
 .promo-countdown { margin: 4px 0 20px; }
@@ -498,6 +499,28 @@ section.tight { padding: 44px 0; }
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
 .faq-item.is-open .faq-answer { max-height: 300px; }
 .faq-answer p { padding: 0 20px 18px; font-size: 13.5px; color: var(--text-dim); line-height: 1.6; }
+
+/* ---- Guide d'admission ---- */
+.guide-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 4px; }
+.guide-step { display: flex; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.guide-step:last-child { border-bottom: none; }
+.guide-num {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+}
+.guide-body { flex: 1; min-width: 0; }
+.guide-title { font-family: var(--font-display); font-weight: 700; font-size: 14.5px; margin-bottom: 6px; }
+.guide-body p { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
 
 /* ---- Calculateur Risque ---- */
 .calc-box { max-width: 480px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; }
@@ -788,6 +811,7 @@ select {
 .price-card .badge { position: absolute; top: -11px; right: 24px; background: var(--gold); color: #0a0a0c; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
 .price-card .plan-name { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
 .price-card .plan-price { font-family: var(--font-display); font-size: 38px; font-weight: 700; margin-bottom: 4px; }
+.price-card .plan-price-htg { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); margin-bottom: 10px; }
 .price-card .plan-price span { font-size: 14px; color: var(--text-faint); font-weight: 500; }
 .price-card .plan-desc { font-size: 13px; color: var(--text-faint); margin-bottom: 20px; }
 .price-card ul { display: flex; flex-direction: column; gap: 9px; }
@@ -1469,6 +1493,79 @@ try {
 
   <hr class="divider">
 
+  <!-- ============ GUIDE D'ADMISSION ============ -->
+  <section class="tight">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow" data-fr="Étape par étape" data-ht="Etap pa etap">Étape par étape</div>
+        <h2 data-fr="Comment rejoindre la communauté privée" data-ht="Kijan pou antre nan kominote prive a">Comment rejoindre la communauté privée</h2>
+        <p data-fr="Le guide complet, du premier clic jusqu'à votre admission." data-ht="Gid konplè a, depi premye klik la jiska admisyon ou.">Le guide complet, du premier clic jusqu'à votre admission.</p>
+      </div>
+
+      <div class="guide-list">
+        <div class="guide-step">
+          <div class="guide-num">1</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Créer un compte ou se connecter" data-ht="Kreye yon kont oswa konekte">Créer un compte ou se connecter</div>
+            <p data-fr="Cliquez sur « Se connecter » en haut du site. Si c'est votre première visite, choisissez « Créer un compte » (nom, email, WhatsApp, mot de passe). Si vous avez déjà un compte, connectez-vous directement." data-ht="Klike sou « Se connecter » anlè sit la. Si se premye vizit ou, chwazi « Créer un compte » (non, email, WhatsApp, modpas). Si w gen deja yon kont, konekte dirèkteman.">Cliquez sur « Se connecter » en haut du site. Si c'est votre première visite, choisissez « Créer un compte » (nom, email, WhatsApp, mot de passe). Si vous avez déjà un compte, connectez-vous directement.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">2</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Cliquer sur « Postuler à la communauté »" data-ht="Klike sou « Postuler à la communauté »">Cliquer sur « Postuler à la communauté »</div>
+            <p data-fr="Ce bouton se trouve sur la page d'accueil. Une fois connecté, il vous mène directement au formulaire d'admission — votre email est déjà rempli automatiquement." data-ht="Bouton sa a sou paj akèy la. Yon fwa w konekte, li mennen w dirèkteman sou fòm admisyon an — email ou deja ranpli otomatikman.">Ce bouton se trouve sur la page d'accueil. Une fois connecté, il vous mène directement au formulaire d'admission — votre email est déjà rempli automatiquement.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">3</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Remplir le formulaire d'admission" data-ht="Ranpli fòm admisyon an">Remplir le formulaire d'admission</div>
+            <p data-fr="Renseignez vos informations personnelles, votre profil de trading (niveau, expérience, marchés suivis, broker) et vos objectifs. Cochez l'engagement demandé, puis cliquez « Continuer »." data-ht="Ranpli enfo pèsonèl ou, pwofil trading ou (nivo, eksperyans, mache ou swiv, broker) ak objektif ou yo. Koche angajman ki mande a, epi klike « Continuer ».">Renseignez vos informations personnelles, votre profil de trading (niveau, expérience, marchés suivis, broker) et vos objectifs. Cochez l'engagement demandé, puis cliquez « Continuer ».</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">4</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Choisir un plan et un code promo (optionnel)" data-ht="Chwazi yon plan ak yon kòd pwomo (opsyonèl)">Choisir un plan et un code promo (optionnel)</div>
+            <p data-fr="Sélectionnez Monthly ($75 USDT) ou Lifetime ($250 USDT). Si vous avez un code promo (ART25 ou ART50), entrez-le pour bénéficier de la réduction s'il est encore valable." data-ht="Chwazi Monthly ($75 USDT) oswa Lifetime ($250 USDT). Si w gen yon kòd pwomo (ART25 oswa ART50), antre l pou benefisye rabè a si li toujou valab.">Sélectionnez Monthly ($75 USDT) ou Lifetime ($250 USDT). Si vous avez un code promo (ART25 ou ART50), entrez-le pour bénéficier de la réduction s'il est encore valable.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">5</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Effectuer le paiement" data-ht="Fè peman an">Effectuer le paiement</div>
+            <p data-fr="Tous les prix sont en USDT (dollars). Si vous payez en Gourdes, le taux appliqué est 143 HTG pour 1 USD — le montant équivalent est affiché sur la page de paiement. Coordonnez le paiement directement avec la Secrétaire via WhatsApp." data-ht="Tout pri yo an USDT (dola). Si w peye an Goud, to ki aplike se 143 HTG pou 1 USD — montan ekivalan an parèt sou paj peman an. Kowòdone peman an dirèkteman ak Sekretè a sou WhatsApp.">Tous les prix sont en USDT (dollars). Si vous payez en Gourdes, le taux appliqué est 143 HTG pour 1 USD — le montant équivalent est affiché sur la page de paiement. Coordonnez le paiement directement avec la Secrétaire via WhatsApp.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">6</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Envoyer la preuve de paiement" data-ht="Voye prèv peman an">Envoyer la preuve de paiement</div>
+            <p data-fr="Sur la page de confirmation, téléchargez votre document PDF récapitulatif, puis envoyez-le à la Secrétaire (Nadline Exantus) sur WhatsApp avec votre preuve de paiement." data-ht="Sou paj konfimasyon an, telechaje dokiman PDF rekapitilatif ou, epi voye l bay Sekretè a (Nadline Exantus) sou WhatsApp ak prèv peman ou.">Sur la page de confirmation, téléchargez votre document PDF récapitulatif, puis envoyez-le à la Secrétaire (Nadline Exantus) sur WhatsApp avec votre preuve de paiement.</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="guide-num">7</div>
+          <div class="guide-body">
+            <div class="guide-title" data-fr="Suivre le statut de votre candidature" data-ht="Swiv estati kandidati ou">Suivre le statut de votre candidature</div>
+            <p data-fr="Reconnectez-vous à tout moment sur le site — votre statut (En attente, Approuvé, Payé, Admis) s'affiche directement dans votre Espace Membre, sous « Idées Trading »." data-ht="Rekonekte nenpòt lè sou sit la — estati ou (PENDING, APPROVED, PAID, ADMITTED) parèt dirèkteman nan Espas Manm ou, anba « Idées Trading ».">Reconnectez-vous à tout moment sur le site — votre statut (En attente, Approuvé, Payé, Admis) s'affiche directement dans votre Espace Membre, sous « Idées Trading ».</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center" style="max-width:640px; margin:28px auto 0; font-size:12.5px; color:var(--text-faint);" data-fr="Une question sur le processus ? Contactez l'équipe via WhatsApp — voir section Support & Contact." data-ht="Yon kesyon sou pwosesis la? Kontakte ekip la sou WhatsApp — gade seksyon Sipò & Kontak.">Une question sur le processus ? Contactez l'équipe via WhatsApp — voir section Support & Contact.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <!-- ============ FAQ ============ -->
   <section class="tight">
     <div class="container">
@@ -1817,10 +1914,12 @@ try {
             <div class="promo-banner-item">
               <span class="promo-banner-code">ART25</span>
               <p data-fr="Les 5 premiers inscrits paient le plan Monthly à seulement $50 (au lieu de $75)." data-ht="5 premye moun ki enskri peye plan Monthly a sèlman $50 (olye $75).">Les 5 premiers inscrits paient le plan Monthly à seulement $50 (au lieu de $75).</p>
+              <p class="promo-banner-htg" data-fr="≈ 7 150 HTG (taux 143 HTG/$)" data-ht="≈ 7 150 goud (to 143 goud/$)">≈ 7 150 HTG (taux 143 HTG/$)</p>
             </div>
             <div class="promo-banner-item">
               <span class="promo-banner-code">ART50</span>
               <p data-fr="Les 5 premiers inscrits paient le plan Lifetime à seulement $200 (au lieu de $250)." data-ht="5 premye moun ki enskri peye plan Lifetime a sèlman $200 (olye $250).">Les 5 premiers inscrits paient le plan Lifetime à seulement $200 (au lieu de $250).</p>
+              <p class="promo-banner-htg" data-fr="≈ 28 600 HTG (taux 143 HTG/$)" data-ht="≈ 28 600 goud (to 143 goud/$)">≈ 28 600 HTG (taux 143 HTG/$)</p>
             </div>
           </div>
           <p class="promo-banner-note" data-fr="Codes valables pendant un mois, dans la limite des places indiquées." data-ht="Kòd yo valid pandan yon mwa, nan limit plas ki endike yo.">Codes valables pendant un mois, dans la limite des places indiquées.</p>
@@ -1831,6 +1930,7 @@ try {
             <div class="select-radio"></div>
             <div class="plan-name" data-fr="Plan Monthly" data-ht="Plan Monthly">Plan Monthly</div>
             <div class="plan-price">$75<span data-fr="/mois" data-ht="/mwa">/mois</span></div>
+            <div class="plan-price-htg" data-fr="≈ 10 725 HTG (taux 143 HTG/$)" data-ht="≈ 10 725 goud (to 143 goud/$)">≈ 10 725 HTG (taux 143 HTG/$)</div>
             <div class="plan-desc" data-fr="Accès complet, renouvelé chaque mois" data-ht="Aksè konplè, renouvle chak mwa">Accès complet, renouvelé chaque mois</div>
             <ul>
               <li data-fr="Private Community" data-ht="Private Community">Private Community</li>
@@ -1848,6 +1948,7 @@ try {
             <div class="select-radio"></div>
             <div class="plan-name" data-fr="Plan Lifetime" data-ht="Plan Lifetime">Plan Lifetime</div>
             <div class="plan-price">$250<span data-fr="/unique" data-ht="/inik">/unique</span></div>
+            <div class="plan-price-htg" data-fr="≈ 35 750 HTG (taux 143 HTG/$)" data-ht="≈ 35 750 goud (to 143 goud/$)">≈ 35 750 HTG (taux 143 HTG/$)</div>
             <div class="plan-desc" data-fr="Accès longue durée, paiement unique" data-ht="Aksè long dire, yon sèl peman">Accès longue durée, paiement unique</div>
             <ul>
               <li data-fr="Tout le contenu du plan Monthly" data-ht="Tout kontni plan Monthly a">Tout le contenu du plan Monthly</li>
@@ -1920,6 +2021,10 @@ try {
           <div class="summary-row total">
             <span class="label" data-fr="Montant" data-ht="Montan">Montant</span>
             <span class="amount" id="summary-amount">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="label" data-fr="≈ en Gourdes (taux 143)" data-ht="≈ an Goud (to 143)">≈ en Gourdes (taux 143)</span>
+            <span id="summary-amount-htg" style="font-family:var(--font-mono); color:var(--text-faint);">—</span>
           </div>
         </div>
 
@@ -2944,9 +3049,12 @@ function getFinalAmount(planCard) {
   return base;
 }
 
+const HTG_RATE = 143;
+
 function refreshPaymentSummary() {
   const summaryPlanEl = document.getElementById('summary-plan');
   const summaryAmountEl = document.getElementById('summary-amount');
+  const summaryAmountHtgEl = document.getElementById('summary-amount-htg');
   const summaryMethodEl = document.getElementById('summary-method');
   const discountRowEl = document.getElementById('summary-discount-row');
   const discountEl = document.getElementById('summary-discount');
@@ -2961,6 +3069,9 @@ function refreshPaymentSummary() {
     const finalAmount = getFinalAmount(planCard);
     summaryPlanEl.textContent = `${label} ($${planCard.dataset.amount})`;
     summaryAmountEl.textContent = `$${finalAmount}`;
+    if (summaryAmountHtgEl) {
+      summaryAmountHtgEl.textContent = `${(finalAmount * HTG_RATE).toLocaleString('fr-FR')} HTG`;
+    }
 
     if (promoActiveForPlan) {
       discountRowEl.style.display = 'flex';
@@ -2971,6 +3082,7 @@ function refreshPaymentSummary() {
   } else {
     summaryPlanEl.textContent = '—';
     summaryAmountEl.textContent = '—';
+    if (summaryAmountHtgEl) summaryAmountHtgEl.textContent = '—';
     discountRowEl.style.display = 'none';
   }
   summaryMethodEl.textContent = selectedMethod || '—';
