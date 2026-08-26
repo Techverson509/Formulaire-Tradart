@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8">
@@ -3300,93 +3300,44 @@ function initApplicationForm() {
 // (le compte existe déjà — créé via "Créer un compte" avant d'accéder au site —
 // donc ici on met à jour le profil existant, on ne crée plus de nouveau compte).
 function submitApplication(profileData) {
-  const submitBtn = document.getElementById('admission-submit-btn');
   const accountError = document.getElementById('account-error');
+  if (accountError) accountError.style.display = 'none';
+
+  // On avance TOUJOURS immédiatement vers le paiement — l'enregistrement
+  // dans Firebase se fait ensuite en arrière-plan, sans jamais bloquer la
+  // personne, même si le réseau est lent ou instable.
+  goToView('view-payment');
+
+  if (!firebaseReady || !currentUser || typeof firebase === 'undefined') {
+    return; // Pas de Firebase configuré — le parcours continue normalement.
+  }
 
   try {
-    if (!firebaseReady || !currentUser || typeof firebase === 'undefined') {
-      // Pas de Firebase configuré, ou état de connexion perdu — on continue
-      // le parcours normalement sans bloquer (dégradation élégante).
-      goToView('view-payment');
-      return;
-    }
-
-    submitBtn.disabled = true;
-    accountError.style.display = 'none';
-
     const memberRef = firebase.firestore().collection('members').doc(currentUser.uid);
-
-    // Filet de sécurité : si Firestore ne répond pas (réseau lent/instable sur
-    // mobile), on n'attend jamais indéfiniment — on avertit et on débloque
-    // le bouton après 8 secondes au lieu de laisser la page figée.
-    let timedOut = false;
-    const timeoutId = setTimeout(() => {
-      timedOut = true;
-      submitBtn.disabled = false;
-      const msg = {
-        fr: 'La connexion est lente. Vérifiez votre connexion internet et réessayez.',
-        ht: 'Koneksyon an lan. Verifye koneksyon entènèt ou epi eseye ankò.'
-      };
-      accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
-      accountError.style.display = 'block';
-      accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 8000);
 
     memberRef.get()
       .then((doc) => {
-        if (timedOut) return; // la personne a déjà été prévenue, on n'agit plus deux fois
         const existing = doc.exists ? doc.data() : {};
-
-        // Un candidat ne peut pas postuler deux fois avec le même compte.
-        if (existing.accountType === 'applicant' && existing.status) {
-          const msg = {
-            fr: 'Vous avez déjà postulé à la communauté privée. Contactez la Secrétaire sur WhatsApp pour suivre votre demande.',
-            ht: 'Ou deja postule pou kominote prive a. Kontakte Sekretè a sou WhatsApp pou swiv demann ou.'
-          };
-          submitBtn.disabled = false;
-          accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
-          accountError.style.display = 'block';
-          accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          return Promise.reject({ code: 'already-applied' });
-        }
-
         return memberRef.set({
           ...profileData,
           email: currentUser.email,
           accountType: 'applicant',
-          status: 'PENDING',
+          status: existing.status || 'PENDING',
           createdAt: existing.createdAt || firebase.firestore.FieldValue.serverTimestamp(),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
       })
-      .then((result) => {
-        clearTimeout(timeoutId);
-        if (timedOut) return; // la personne a déjà été prévenue, on n'agit plus deux fois
-        if (result === undefined) return; // cas "déjà postulé" déjà géré ci-dessus
-        submitBtn.disabled = false;
+      .then(() => {
         sendWelcomeEmail(currentUser.email, profileData.prenom, 'applicant');
-        goToView('view-payment');
       })
       .catch((err) => {
-        clearTimeout(timeoutId);
-        if (timedOut) return; // la personne a déjà été prévenue, on n'agit plus deux fois
-        if (err && err.code === 'already-applied') return; // déjà affiché
-        console.error('submitApplication a échoué :', err);
-        submitBtn.disabled = false;
-        const msg = { fr: 'Une erreur est survenue. Veuillez réessayer.', ht: 'Gen yon erè ki fèt. Tanpri eseye ankò.' };
-        accountError.textContent = currentLang === 'fr' ? msg.fr : msg.ht;
-        accountError.style.display = 'block';
-        accountError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Échec silencieux : la personne est déjà sur la page de paiement,
+        // on ne l'interrompt pas. L'erreur reste visible dans la console
+        // pour le support technique.
+        console.error('submitApplication (arrière-plan) a échoué :', err);
       });
   } catch (err) {
     console.error('submitApplication (synchrone) a échoué :', err);
-    if (submitBtn) submitBtn.disabled = false;
-    if (accountError) {
-      accountError.textContent = currentLang === 'fr' ? 'Une erreur inattendue est survenue. Réessayez.' : 'Gen yon erè ki fèt. Eseye ankò.';
-      accountError.style.display = 'block';
-    }
-    // Dégradation élégante : on laisse quand même la personne avancer.
-    goToView('view-payment');
   }
 }
 
