@@ -1110,6 +1110,59 @@ try {
   box-shadow: 0 4px 20px rgba(0,0,0,.25);
 }
 </style>
+<style>
+@keyframes promoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes promoGlow {
+  0%, 100% { text-shadow: 0 0 8px rgba(255,255,255,.6), 0 0 18px rgba(255,90,90,.9); }
+  50% { text-shadow: 0 0 16px rgba(255,255,255,.9), 0 0 34px rgba(255,90,90,1); }
+}
+.promo-flash {
+  overflow: hidden;
+  background: linear-gradient(90deg, #b3121f, #ff3b3b, #b3121f);
+  background-size: 200% 100%;
+  animation: promoGradient 6s linear infinite;
+  border-top: 1px solid rgba(255,255,255,.25);
+  border-bottom: 1px solid rgba(255,255,255,.25);
+  padding: 10px 0;
+}
+@keyframes promoGradient { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+.promo-flash-track { display: flex; width: max-content; animation: promoScroll 18s linear infinite; }
+.promo-flash-item {
+  display: inline-block; white-space: nowrap; padding: 0 40px;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(16px, 3vw, 26px); letter-spacing: .02em;
+  color: #fff; animation: promoGlow 1.6s ease-in-out infinite;
+}
+.promo-flash-item b { color: #ffe066; }
+
+.promo-flash-detail { background: #17090a; border-bottom: 1px solid rgba(255,255,255,.1); padding: 16px 0; }
+.pf-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+.pf-left { display: flex; flex-direction: column; gap: 4px; }
+.pf-badge {
+  display: inline-block; width: fit-content;
+  background: #ffe066; color: #1a0d0d; font-weight: 800; font-size: 11px;
+  letter-spacing: .08em; padding: 3px 10px; border-radius: 999px; margin-bottom: 4px;
+}
+.pf-title { color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 18px; }
+.pf-code {
+  display: inline-block; background: rgba(255,255,255,.12); color: #ffe066;
+  padding: 2px 10px; border-radius: 6px; letter-spacing: .06em; margin-left: 4px;
+}
+.pf-sub { color: rgba(255,255,255,.75); font-size: 13px; }
+.pf-right { display: flex; align-items: center; gap: 18px; }
+.pf-countdown { display: flex; gap: 8px; }
+.pf-cd-unit {
+  background: rgba(255,255,255,.1); border-radius: 8px; padding: 6px 10px;
+  text-align: center; min-width: 46px;
+}
+.pf-cd-unit span { display: block; color: #fff; font-family: var(--font-mono); font-weight: 700; font-size: 16px; }
+.pf-cd-unit small { color: rgba(255,255,255,.6); font-size: 9px; text-transform: uppercase; }
+.pf-spots { color: #ffe066; font-weight: 700; font-size: 13px; white-space: nowrap; }
+.promo-flash.is-hidden, .promo-flash-detail.is-hidden { display: none; }
+@media (max-width: 640px) {
+  .pf-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
 </head>
 <body>
 <div id="splash-screen" class="splash-screen">
@@ -1213,6 +1266,33 @@ try {
       <div class="hero-ctas">
         <button class="btn btn-primary btn-lg" onclick="document.getElementById('services-anchor').scrollIntoView({behavior:'smooth'})" data-fr="Postuler à la communauté" data-ht="Aplike pou kominote a">Postuler à la communauté</button>
         <a href="#avantages-anchor" class="btn btn-secondary btn-lg" data-fr="Découvrir les avantages" data-ht="Dekouvri avantaj yo">Découvrir les avantages</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="promo-flash" id="promo-flash-banner">
+    <div class="promo-flash-track">
+      <span class="promo-flash-item">&#128293; VIN TRADE LIVE AK TRADERSON &#128293; &nbsp;&mdash;&nbsp; K&ograve;d Promo <b>TRADERSON</b> &nbsp;&mdash;&nbsp; Sèlman <b>$30</b> pou Plan Mwa a (olye $50) &nbsp;&mdash;&nbsp; 5 PREMYE MOUN SÈLMAN &nbsp;&mdash;&nbsp; Ekspire jodi a a MINWI &#9200;</span>
+      <span class="promo-flash-item">&#128293; VIN TRADE LIVE AK TRADERSON &#128293; &nbsp;&mdash;&nbsp; K&ograve;d Promo <b>TRADERSON</b> &nbsp;&mdash;&nbsp; Sèlman <b>$30</b> pou Plan Mwa a (olye $50) &nbsp;&mdash;&nbsp; 5 PREMYE MOUN SÈLMAN &nbsp;&mdash;&nbsp; Ekspire jodi a a MINWI &#9200;</span>
+    </div>
+  </div>
+
+  <div class="promo-flash-detail" id="promo-flash-detail">
+    <div class="container">
+      <div class="pf-inner">
+        <div class="pf-left">
+          <div class="pf-badge">&#9889; FLASH</div>
+          <div class="pf-title">K&ograve;d Promo <span class="pf-code">TRADERSON</span></div>
+          <div class="pf-sub" data-fr="Vin Trade Live ak Traderson — $30 pour le Plan Mensuel (Communauté Privée), au lieu de $50." data-ht="Vin Trade Live ak Traderson — $30 pou Plan Mwa a (Kominote Prive), olye $50.">Vin Trade Live ak Traderson — $30 pour le Plan Mensuel (Communauté Privée), au lieu de $50.</div>
+        </div>
+        <div class="pf-right">
+          <div class="pf-countdown" id="promo-countdown-flash">
+            <div class="pf-cd-unit"><span id="pf-h">--</span><small data-fr="h" data-ht="è">h</small></div>
+            <div class="pf-cd-unit"><span id="pf-m">--</span><small data-fr="min" data-ht="min">min</small></div>
+            <div class="pf-cd-unit"><span id="pf-s">--</span><small data-fr="sec" data-ht="sek">sec</small></div>
+          </div>
+          <div class="pf-spots" id="promo-spots-text">&hellip;</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1997,6 +2077,15 @@ try {
               <li data-fr="Support prioritaire" data-ht="Sipò pryoritè">Support prioritaire</li>
             </ul>
           </div>
+        </div>
+
+        <div class="form-group" id="traderson-promo-box" data-plan-for="monthly" style="display:none;">
+          <label data-fr="Code promo (facultatif)" data-ht="Kòd promo (opsyonèl)">Code promo (facultatif)</label>
+          <div class="promo-row">
+            <input type="text" id="traderson-input" class="promo-input" placeholder="TRADERSON" autocapitalize="characters">
+            <button type="button" class="btn btn-secondary" id="traderson-apply-btn" data-fr="Appliquer" data-ht="Aplike">Appliquer</button>
+          </div>
+          <p id="traderson-message" class="promo-message"></p>
         </div>
 
         <div class="subsection-title" data-fr="Mode de paiement" data-ht="Metòd Peman">Mode de paiement</div>
@@ -2850,6 +2939,13 @@ function finishApplication() {
   document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('is-selected'));
   document.getElementById('txn-id').value = '';
   document.getElementById('txn-ref').value = '';
+  tradersonApplied = false;
+  const promoBox = document.getElementById('traderson-promo-box');
+  if (promoBox) promoBox.style.display = 'none';
+  const tradersonInput = document.getElementById('traderson-input');
+  if (tradersonInput) tradersonInput.value = '';
+  const tradersonMsg = document.getElementById('traderson-message');
+  if (tradersonMsg) tradersonMsg.textContent = '';
   updateStepper(1);
   goToView('view-presentation');
 }
@@ -2895,6 +2991,7 @@ function applyLang() {
 
   // Mettre à jour le résumé de paiement s'il est déjà rempli (labels de plan dépendent de la langue)
   refreshPaymentSummary();
+  if (typeof refreshTradersonSpots === 'function') refreshTradersonSpots();
   updateLangFlag();
   if (typeof updateSessionClock === 'function') updateSessionClock();
 }
@@ -2904,6 +3001,84 @@ let selectedPlan = null;
 let selectedMethod = null;
 
 // ---- Services Trad'Art (3 offres) ----
+// ---- Code promo TRADERSON (Plan Monthly du Service Signal uniquement) ----
+const TRADERSON_CODE = 'TRADERSON';
+const TRADERSON_PRICE = 30; // $30 au lieu de $50
+const TRADERSON_MAX_USES = 5;
+// Expire à minuit le jour de la mise en ligne.
+const TRADERSON_EXPIRY = new Date('2026-08-28T23:59:59');
+let tradersonApplied = false;
+
+function isTradersonExpired() {
+  return new Date() > TRADERSON_EXPIRY;
+}
+
+function updateTradersonCountdown() {
+  const banner = document.getElementById('promo-flash-banner');
+  const detail = document.getElementById('promo-flash-detail');
+  const hEl = document.getElementById('pf-h');
+  const mEl = document.getElementById('pf-m');
+  const sEl = document.getElementById('pf-s');
+  if (!banner) return;
+
+  const diff = TRADERSON_EXPIRY.getTime() - Date.now();
+  if (diff <= 0) {
+    banner.classList.add('is-hidden');
+    if (detail) detail.classList.add('is-hidden');
+    return;
+  }
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  if (hEl) hEl.textContent = String(h).padStart(2, '0');
+  if (mEl) mEl.textContent = String(m).padStart(2, '0');
+  if (sEl) sEl.textContent = String(s).padStart(2, '0');
+}
+
+function initTradersonCountdown() {
+  if (!document.getElementById('promo-flash-banner')) return;
+  updateTradersonCountdown();
+  setInterval(updateTradersonCountdown, 1000);
+  refreshTradersonSpots();
+}
+
+function refreshTradersonSpots() {
+  const el = document.getElementById('promo-spots-text');
+  const banner = document.getElementById('promo-flash-banner');
+  const detail = document.getElementById('promo-flash-detail');
+  if (!el) return;
+  if (!firebaseReady || typeof firebase === 'undefined') {
+    el.textContent = currentLang === 'fr' ? `${TRADERSON_MAX_USES} places au total` : `${TRADERSON_MAX_USES} plas antou`;
+    return;
+  }
+  firebase.firestore().collection('promo_codes').doc('traderson').get()
+    .then((doc) => {
+      const uses = (doc.exists && doc.data().uses) ? doc.data().uses : 0;
+      const left = Math.max(0, TRADERSON_MAX_USES - uses);
+      if (left <= 0 && banner) {
+        banner.classList.add('is-hidden');
+        if (detail) detail.classList.add('is-hidden');
+        return;
+      }
+      el.textContent = currentLang === 'fr' ? `${left} places restantes sur ${TRADERSON_MAX_USES}` : `${left} plas ki rete sou ${TRADERSON_MAX_USES}`;
+    })
+    .catch((err) => { console.error('refreshTradersonSpots a échoué :', err); });
+}
+
+// Réclame atomiquement une place (transaction) — retourne une Promise<boolean>.
+function claimTradersonSpot() {
+  if (!firebaseReady || typeof firebase === 'undefined') return Promise.resolve(false);
+  const ref = firebase.firestore().collection('promo_codes').doc('traderson');
+  return firebase.firestore().runTransaction((tx) => {
+    return tx.get(ref).then((doc) => {
+      const uses = (doc.exists && doc.data().uses) ? doc.data().uses : 0;
+      if (uses >= TRADERSON_MAX_USES) return false;
+      tx.set(ref, { uses: uses + 1 }, { merge: true });
+      return true;
+    });
+  }).catch((err) => { console.error('claimTradersonSpot a échoué :', err); return false; });
+}
+
 const SERVICE_INFO = {
   intermediaire: {
     amount: 150,
@@ -3019,9 +3194,49 @@ function initPaymentPage() {
       document.querySelectorAll('#pricing-signal .price-card').forEach(c => c.classList.remove('is-selected'));
       card.classList.add('is-selected');
       selectedPlan = card.dataset.plan;
+
+      const promoBox = document.getElementById('traderson-promo-box');
+      if (promoBox) {
+        const service = TradArtState.get().service || 'debutant';
+        if (service === 'signal' && selectedPlan === 'monthly' && !isTradersonExpired()) {
+          promoBox.style.display = '';
+        } else {
+          promoBox.style.display = 'none';
+          tradersonApplied = false;
+          const msgEl = document.getElementById('traderson-message');
+          if (msgEl) msgEl.textContent = '';
+        }
+      }
       refreshPaymentSummary();
     });
   });
+
+  const tradersonBtn = document.getElementById('traderson-apply-btn');
+  if (tradersonBtn) {
+    tradersonBtn.addEventListener('click', () => {
+      const input = document.getElementById('traderson-input');
+      const msgEl = document.getElementById('traderson-message');
+      const code = input.value.trim().toUpperCase();
+      msgEl.classList.remove('is-success', 'is-error');
+
+      if (isTradersonExpired()) {
+        tradersonApplied = false;
+        msgEl.textContent = currentLang === 'fr' ? "Ce code a expiré." : "Kòd sa a ekspire.";
+        msgEl.classList.add('is-error');
+      } else if (code !== TRADERSON_CODE) {
+        tradersonApplied = false;
+        msgEl.textContent = currentLang === 'fr' ? "Code promo invalide." : "Kòd promo envalid.";
+        msgEl.classList.add('is-error');
+      } else {
+        tradersonApplied = true;
+        msgEl.textContent = currentLang === 'fr'
+          ? `Code appliqué — $${TRADERSON_PRICE} pour ce mois (au lieu de $50).`
+          : `Kòd aplike — $${TRADERSON_PRICE} pou mwa sa a (olye $50).`;
+        msgEl.classList.add('is-success');
+      }
+      refreshPaymentSummary();
+    });
+  }
 
   payMethods.forEach(method => {
     const radio = method.querySelector('input[type="radio"]');
@@ -3058,22 +3273,51 @@ function initPaymentPage() {
       amount = info.amount;
     }
 
-    TradArtState.set({
-      service: service,
-      plan: selectedPlan,
-      plan_label_fr: planLabelFr,
-      plan_label_ht: planLabelHt,
-      plan_amount: amount,
-      payment_method: selectedMethod,
-      txn_id: document.getElementById('txn-id').value.trim(),
-      txn_ref: document.getElementById('txn-ref').value.trim(),
-      status: 'PENDING'
-    });
+    const wantsTraderson = tradersonApplied && service === 'signal' && selectedPlan === 'monthly' && !isTradersonExpired();
+    const finalizeAndContinue = (finalAmount, promoUsed) => {
+      TradArtState.set({
+        service: service,
+        plan: selectedPlan,
+        plan_label_fr: planLabelFr,
+        plan_label_ht: planLabelHt,
+        plan_amount: finalAmount,
+        promo_code: promoUsed ? TRADERSON_CODE : null,
+        payment_method: selectedMethod,
+        txn_id: document.getElementById('txn-id').value.trim(),
+        txn_ref: document.getElementById('txn-ref').value.trim(),
+        status: 'PENDING'
+      });
 
-    fillConfirmationPage();
-    goToView('view-confirmation');
-    sendApplicationToBackend(TradArtState.get());
-    saveApplicationToFirestore(TradArtState.get());
+      fillConfirmationPage();
+      goToView('view-confirmation');
+      sendApplicationToBackend(TradArtState.get());
+      saveApplicationToFirestore(TradArtState.get());
+    };
+
+    if (wantsTraderson) {
+      const btn = document.getElementById('continue-btn');
+      btn.disabled = true;
+      claimTradersonSpot().then((claimed) => {
+        btn.disabled = false;
+        if (claimed) {
+          finalizeAndContinue(TRADERSON_PRICE, true);
+        } else {
+          const msgEl = document.getElementById('traderson-message');
+          if (msgEl) {
+            msgEl.classList.remove('is-success');
+            msgEl.classList.add('is-error');
+            msgEl.textContent = currentLang === 'fr'
+              ? "Désolé, les 5 places du code TRADERSON sont déjà prises. Prix normal appliqué."
+              : "Dezole, 5 plas kòd TRADERSON yo deja pran. Pri nòmal aplike.";
+          }
+          tradersonApplied = false;
+          refreshPaymentSummary();
+          finalizeAndContinue(amount, false);
+        }
+      });
+    } else {
+      finalizeAndContinue(amount, false);
+    }
   });
 }
 
@@ -3118,8 +3362,10 @@ function refreshPaymentSummary() {
     const planCard = Array.from(document.querySelectorAll('#pricing-signal .price-card')).find(c => c.dataset.plan === selectedPlan);
     if (planCard) {
       const label = currentLang === 'fr' ? planCard.dataset.labelFr : planCard.dataset.labelHt;
-      const amount = parseInt(planCard.dataset.amount, 10);
-      summaryPlanEl.textContent = `${label} ($${amount})`;
+      let amount = parseInt(planCard.dataset.amount, 10);
+      const withTraderson = tradersonApplied && selectedPlan === 'monthly' && !isTradersonExpired();
+      if (withTraderson) amount = TRADERSON_PRICE;
+      summaryPlanEl.textContent = withTraderson ? `${label} ($${TRADERSON_PRICE} — TRADERSON)` : `${label} ($${amount})`;
       summaryAmountEl.textContent = `$${amount}`;
       if (summaryAmountHtgEl) summaryAmountHtgEl.textContent = `${(amount * HTG_RATE).toLocaleString('fr-FR')} HTG`;
     } else {
@@ -4194,6 +4440,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try { initSessionClock(); } catch (e) { console.error('initSessionClock a échoué :', e); }
   try { initPromoCountdown(); } catch (e) { console.error('initPromoCountdown a échoué :', e); }
   try { applyLang(); } catch (e) { console.error('applyLang a échoué :', e); }
+  try { initTradersonCountdown(); } catch (e) { console.error('initTradersonCountdown a échoué :', e); }
   try {
     if (firebaseReady) {
       firebase.auth().onAuthStateChanged((user) => {
