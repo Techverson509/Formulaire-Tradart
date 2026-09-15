@@ -1608,7 +1608,7 @@ try {
         <div class="price-card">
           <div class="badge" data-fr="Offre Spéciale — 10 places" data-ht="Òf Espesyal — 10 plas">Offre Spéciale — 10 places</div>
           <div class="plan-name" data-fr="Formation Débutant" data-ht="Fòmasyon Debitan">Formation Débutant</div>
-          <div class="plan-price" id="debutant-price-display"><span style="text-decoration:line-through;opacity:.5;font-size:.6em;margin-right:6px;">$300</span>$150</div>
+          <div class="plan-price" id="debutant-price-display">$150</div>
           <div class="plan-desc" data-fr="Trading de A à Z, aucune base requise" data-ht="Trading de A a Z, pa bezwen okenn baz">Trading de A à Z, aucune base requise</div>
           <ul>
             <li data-fr="Toutes les bases du trading" data-ht="Tout baz trading yo" >Toutes les bases du trading</li>
@@ -3170,7 +3170,7 @@ function preparePaymentView() {
     const amountEl = document.getElementById('formation-plan-amount');
     if (labelEl) labelEl.textContent = currentLang === 'fr' ? info.label_fr : info.label_ht;
     if (service === 'debutant' && isAzPromoLikelyAvailable()) {
-      if (amountEl) amountEl.innerHTML = '<span style="text-decoration:line-through;opacity:.55;font-size:.75em;margin-right:6px;">$' + info.amount + '</span>$' + AZ_PRICE;
+      if (amountEl) amountEl.textContent = '$' + AZ_PRICE;
     } else if (amountEl) {
       amountEl.textContent = '$' + info.amount;
     }
