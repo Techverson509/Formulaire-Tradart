@@ -101,6 +101,7 @@ img { max-width: 100%; display: block; }
 .view { display: none; }
 .view.is-active { display: block; }
 
+.btn-ghost{background:transparent;border:1px solid rgba(143,184,232,.4);color:#8FB8E8;margin-bottom:10px}
 /* ---- Splash / welcome + auth gate screen ---- */
 .splash-screen {
   position: fixed;
@@ -1184,6 +1185,7 @@ try {
 
     <div class="splash-actions">
       <button type="button" class="btn btn-primary btn-lg btn-block" onclick="startFromSplash('signup')" data-fr="Créer un compte" data-ht="Kreye yon kont">Créer un compte</button>
+      <button type="button" class="btn btn-ghost btn-block" onclick="dismissSplash()" data-fr="Entrer sur le site" data-ht="Antre sou sit la">Entrer sur le site</button>
       <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="startFromSplash('signin')" data-fr="J'ai déjà un compte, Se connecter" data-ht="Mwen deja gen yon kont, Konekte">J'ai déjà un compte, Se connecter</button>
     </div>
   </div>
@@ -2884,7 +2886,7 @@ const VIEW_STEP_MAP = { 'view-presentation': 1, 'view-admission': 2, 'view-payme
 // Boutique, Admin) — le reste du site (présentation, résultats, outils) reste
 // visible librement, pour que les visiteurs découvrent nos services avant de
 // s'inscrire.
-const PROTECTED_VIEWS = ['view-presentation', 'view-admission', 'view-membre', 'view-boutique'];
+const PROTECTED_VIEWS = ['view-admission', 'view-membre', 'view-boutique'];
 let pendingProtectedView = null;
 
 function goToView(viewId) {
@@ -4498,10 +4500,10 @@ document.addEventListener('DOMContentLoaded', () => {
           // Compte connecté (nouveau ou déjà existant) — on montre le site.
           dismissSplash();
         } else {
-          // Personne non connectée : l'animation Bienvenue reste affichée
-          // par-dessus le formulaire de connexion/inscription — bloqué
-          // tant que la personne ne s'est pas inscrite ou connectée.
-          goToView('view-login');
+          // Visiteur non connecté : la page d'accueil est librement accessible.
+          // L'animation Bienvenue se ferme toute seule, sans inscription requise.
+          goToView('view-presentation');
+          setTimeout(dismissSplash, 2600);
         }
       });
     } else {
