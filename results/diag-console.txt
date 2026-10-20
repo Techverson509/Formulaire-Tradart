@@ -4,25 +4,25 @@
 [36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
 [32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
 [36m[1mi [22m[39m Running script: [1mnode diag/diag.mjs[22m
-[2026-10-20T05:38:25.455Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05994 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:55.657Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x599127d7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L76:43 for 'update' @ L76, false for 'update' @ L76
-[2026-10-20T05:38:25.498Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05996 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:55.702Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x599127d9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L77:43 for 'update' @ L77, false for 'update' @ L77
-[2026-10-20T05:38:25.536Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05998 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:55.742Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x599127db error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
-[2026-10-20T05:38:25.844Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:56.042Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x599127ed error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L75:43 for 'update' @ L75, false for 'update' @ L75
-[2026-10-20T05:38:25.928Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:56.126Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x599127f3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
-[2026-10-20T05:38:26.336Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059c8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:56.493Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x5991280b error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
-[2026-10-20T05:38:26.712Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059e0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:56.845Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x59912823 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
-[2026-10-20T05:38:26.770Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059e4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:56.895Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x59912827 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L80:43 for 'update' @ L80, false for 'update' @ L80
-[2026-10-20T05:38:26.942Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059ef error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:57.050Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x59912832 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L87:43 for 'create' @ L87, false for 'create' @ L87
-[2026-10-20T05:38:27.097Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059f7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:39:57.185Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x5991283a error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:43 for 'create' @ L88, false for 'create' @ L88
 
 ### S1a update {status:PAID} (seed PENDING)

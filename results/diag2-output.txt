@@ -1,0 +1,17 @@
+E01 constante false                                                    -> "false for" (propre)
+E02 1 == 2                                                             -> "false for" (propre)
+E03 'a' == 'b'                                                         -> "false for" (propre)
+E04 auth.uid == "zzz" (faux)                                           -> "false for" (propre)
+E05 resource.data.status == 'zzz' (champ existe, faux)                 -> "evaluation error"
+E06 incoming().get('status',null) == 'zzz' (faux)                      -> "evaluation error"
+E07 !('status' in resource.data) (faux)                                -> "evaluation error"
+E08 !('status' in resource.data) && incoming().status == 'PENDING'     -> "evaluation error"
+E09 fonction renvoyant false (signedIn() && false)                     -> "false for" (propre)
+E10 resource.data.nonexistent == 1 (VRAIE erreur : champ absent)       -> "evaluation error"
+E11 incoming().nonexistent == 1 (VRAIE erreur)                         -> "evaluation error"
+E12 'x' in ['a','b'] (faux)                                            -> "false for" (propre)
+E13 incoming().status in ['A','B'] (faux)                              -> "evaluation error"
+E14 request.time < request.time (faux)                                 -> "false for" (propre)
+E15 incoming().keys().hasOnly(['a']) (faux)                            -> "evaluation error"
+E16 true || incoming().nonexistent == 1                                -> ALLOW
+E17 false || incoming().status == 'PENDING' (faux)                     -> ALLOW
