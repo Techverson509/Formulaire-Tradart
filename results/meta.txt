@@ -1,4 +1,4 @@
-date: 2026-10-20T05:13:57Z
+date: 2026-10-20T05:16:09Z
 node: v20.20.2
 firebase-tools: 13.35.1
-rules-sha256: 78c6ef6b3af578a68cf116ececb66b2024a31eaa8c9eb77057170723d2d3c5e1
+rules-sha256: 91f2ac4de6290e11cd4cdef79edac89613fde2025f7a36604178a6ec99fcc7ae
