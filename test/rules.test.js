@@ -261,3 +261,51 @@ test('P9 membre lit son propre claim -> OK ; celui d\'un autre -> REFUSÉ ; anon
 test('P10 modification ou suppression d\'un claim existant, même par admin -> REFUSÉ', async () => {
   await seed((d) => setDoc(doc(d,'promo_claims/u1'), { promo:'formation_az', amount:150 }));
   await assertFails(updateDoc(doc(admin(),'promo_claims/u1'), { amount:1 })); await assertFails(deleteDoc(doc(admin(),'promo_claims/u1'))); });
+
+// ---------------- Couverture complémentaire (revue 3) : les 4 menaces demandées
+// Menace A — se donner un droit admin / un privilège
+test('G1 membre crée le profil d\'un AUTRE uid -> REFUSÉ', async () => {
+  await assertFails(setDoc(doc(user('u1'),'members/u2'), signupPayload('u2'))); });
+test('G2 membre crée son profil avec role:"admin" ou accountType:"admin" -> REFUSÉ', async () => {
+  await assertFails(setDoc(doc(user('u1'),'members/u1'), { ...signupPayload('u1'), role:'admin' }));
+  await assertFails(setDoc(doc(user('u1'),'members/u1'), { ...signupPayload('u1'), accountType:'admin' }));
+  await assertFails(setDoc(doc(user('u1'),'members/u1'), { ...signupPayload('u1'), admin:true })); });
+test('G3 jeton avec admin:"true" (chaîne) ou admin:false n\'est PAS admin -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'members/u9'), { email:'u9@ex.com', status:'PENDING' }));
+  await assertFails(updateDoc(doc(user('c1', { admin:'true' }),'members/u9'), { status:'PAID' }));
+  await assertFails(updateDoc(doc(user('c2', { admin:false }),'members/u9'), { status:'PAID' })); });
+// Menace B — changer son statut de paiement
+test('G4 set NON-merge qui efface le status d\'un membre PAID -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', status:'PAID', accountType:'applicant' }));
+  await assertFails(setDoc(doc(user('u1'),'members/u1'), { email:'u1@ex.com', accountType:'applicant', prenom:'J' })); });
+test('G5 membre REJECTED qui se remet PENDING (ou PAID -> PENDING) -> REFUSÉ', async () => {
+  await seed(async (d) => { await setDoc(doc(d,'members/u1'), { email:'u1@ex.com', status:'REJECTED', accountType:'applicant' }); await setDoc(doc(d,'members/u2'), { email:'u2@ex.com', status:'PAID', accountType:'applicant' }); });
+  await assertFails(updateDoc(doc(user('u1'),'members/u1'), { status:'PENDING' }));
+  await assertFails(updateDoc(doc(user('u2'),'members/u2'), { status:'PENDING' })); });
+test('G6 membre efface un champ de paiement après approbation (deleteField) -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', status:'APPROVED', accountType:'applicant', txn_id:'T1', plan_amount:300 }));
+  await assertFails(updateDoc(doc(user('u1'),'members/u1'), { txn_id: null })); });
+// Menace C — contenu VIP sans abonnement actif
+test('G7 membre prolonge ou supprime son propre droit existant -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'entitlements/u1'), { tier:'vip', expiresAt: past }));
+  await assertFails(updateDoc(doc(user('u1'),'entitlements/u1'), { expiresAt: future }));
+  await assertFails(deleteDoc(doc(user('u1'),'entitlements/u1'))); });
+test('G8 tier "full" actif -> lit vip_content ; droit sans expiresAt -> REFUSÉ', async () => {
+  await seed(async (d) => { await setDoc(doc(d,'vip_content/v1'), { t:1 }); await setDoc(doc(d,'entitlements/f'), { tier:'full', expiresAt: future }); await setDoc(doc(d,'entitlements/n'), { tier:'vip' }); });
+  await assertSucceeds(getDoc(doc(user('f'),'vip_content/v1'))); await assertFails(getDoc(doc(user('n'),'vip_content/v1'))); });
+test('G9 REQUÊTE de liste sur vip_content : sans abonnement REFUSÉ, abonné OK', async () => {
+  await seed(async (d) => { await setDoc(doc(d,'vip_content/v1'), { t:1 }); await setDoc(doc(d,'entitlements/ok'), { tier:'vip', expiresAt: future }); });
+  await assertFails(getDocs(collection(user('u1'),'vip_content'))); await assertSucceeds(getDocs(collection(user('ok'),'vip_content'))); });
+test('G10 admin (claim) lit vip_content ; membre qui s\'écrit un claim promo -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'vip_content/v1'), { t:1 }));
+  await assertSucceeds(getDoc(doc(adminClaim(),'vip_content/v1')));
+  await assertFails(setDoc(doc(user('u1'),'promo_claims/u1'), { promo:'formation_az', amount:150, validatedAt: serverTimestamp() })); });
+// Menace D — modifier les données d'un autre membre
+test('G11 membre modifie le status / efface / remplace le profil d\'un autre -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'members/u2'), { email:'u2@ex.com', status:'PENDING', accountType:'applicant' }));
+  await assertFails(updateDoc(doc(user('u1'),'members/u2'), { status:'PAID' }));
+  await assertFails(setDoc(doc(user('u1'),'members/u2'), { email:'u1@ex.com', status:'PAID' }));
+  await assertFails(deleteDoc(doc(user('u1'),'members/u2'))); });
+test('G12 membre lit les droits / claims d\'un autre -> REFUSÉ', async () => {
+  await seed(async (d) => { await setDoc(doc(d,'entitlements/u2'), { tier:'vip', expiresAt: future }); await setDoc(doc(d,'promo_claims/u2'), { promo:'formation_az', amount:150 }); });
+  await assertFails(getDoc(doc(user('u1'),'entitlements/u2'))); await assertFails(getDoc(doc(user('u1'),'promo_claims/u2'))); });
