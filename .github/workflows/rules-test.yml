@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [security-v2-tests]
-    paths: ['firestore.rules','test/**','package.json','.github/workflows/rules-test.yml']
+    paths: ['firestore.rules','test/**','diag/**','package.json','.github/workflows/rules-test.yml']
 permissions:
   contents: write
 jobs:
@@ -28,6 +28,11 @@ jobs:
             echo "rules-sha256: $(sha256sum firestore.rules | cut -d' ' -f1)"; } > results/meta.txt
           tail -n 300 firestore-debug.log > results/firestore-debug-tail.txt 2>/dev/null || true
           tail -80 results/test-output.txt
+      - name: Diagnostic des evaluation errors
+        run: |
+          set +e
+          npx firebase emulators:exec --only firestore --project demo-diag "node diag/diag.mjs" > results/diag-console.txt 2>&1
+          tail -n 120 results/diag-console.txt
       - name: Publier les résultats sur la branche
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
