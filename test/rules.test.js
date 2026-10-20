@@ -7,7 +7,7 @@ import { doc, getDoc, getDocs, collection, setDoc, updateDoc, deleteDoc, serverT
 
 const ADMIN_UID = 'uid-marc-admin';
 const rules = readFileSync(new URL('../firestore.rules', import.meta.url), 'utf8')
-  .replace('REMPLACER_PAR_UID_MARC', ADMIN_UID);
+  .replaceAll('REMPLACER_PAR_UID_MARC', ADMIN_UID);
 
 let env;
 before(async () => { env = await initializeTestEnvironment({ projectId: 'demo-tradart', firestore: { rules } }); });
@@ -213,4 +213,22 @@ test('X6 createdAt falsifié -> REFUSÉ', async () => {
 test('X7 écriture sur setups/products par un admin client -> REFUSÉ (console seulement)', async () => {
   await assertFails(setDoc(doc(admin(),'setups/s1'), { title:'x' }));
   await assertFails(setDoc(doc(admin(),'products/p1'), { title:'x' }));
+});
+
+// ---------------- Contrôles : prouvent que les refus ci-dessus ont la BONNE cause
+test('K1 contrôle: membre (doc ancien sans createdAt/updatedAt) modifie son whatsapp -> OK', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', status:'PENDING', accountType:'applicant' }));
+  await assertSucceeds(updateDoc(doc(user('u1'),'members/u1'), { whatsapp:'+50911' }));
+});
+test('K2 contrôle: idem avec updatedAt serveur -> OK', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', status:'PENDING', accountType:'applicant' }));
+  await assertSucceeds(updateDoc(doc(user('u1'),'members/u1'), { whatsapp:'+50911', updatedAt: serverTimestamp() }));
+});
+test('K3 contrôle: doc free sans status -> candidature pose PENDING -> OK', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', accountType:'free' }));
+  await assertSucceeds(updateDoc(doc(user('u1'),'members/u1'), { accountType:'applicant', status:'PENDING', updatedAt: serverTimestamp() }));
+});
+test('K4 contrôle: membre sans status se pose PENDING mais PAS un autre statut', async () => {
+  await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', accountType:'free' }));
+  await assertFails(updateDoc(doc(user('u1'),'members/u1'), { status:'PAID' }));
 });

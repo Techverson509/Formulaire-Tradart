@@ -26,7 +26,8 @@ jobs:
           echo $? > results/exit-code.txt
           { echo "date: $(date -u +%FT%TZ)"; echo "node: $(node -v)"; echo "firebase-tools: $(npx firebase --version)";
             echo "rules-sha256: $(sha256sum firestore.rules | cut -d' ' -f1)"; } > results/meta.txt
-          cat results/test-output.txt | tail -80
+          tail -n 300 firestore-debug.log > results/firestore-debug-tail.txt 2>/dev/null || true
+          tail -80 results/test-output.txt
       - name: Publier les résultats sur la branche
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
