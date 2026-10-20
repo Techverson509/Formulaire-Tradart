@@ -4,35 +4,35 @@
 [36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
 [32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
 [36m[1mi [22m[39m Running script: [1mnode diag/diag2.mjs[22m
-[2026-10-20T05:40:01.097Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736bb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.768Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccbb error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L73
-[2026-10-20T05:40:01.161Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736bd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.822Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccbd error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L74
-[2026-10-20T05:40:01.203Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736bf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.857Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccbf error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L75
-[2026-10-20T05:40:01.231Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736c1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.884Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccc1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L76
-[2026-10-20T05:40:01.277Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736c3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.927Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccc3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L77:43 for 'update' @ L77, false for 'update' @ L77
-[2026-10-20T05:40:01.313Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736c5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.957Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccc5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
-[2026-10-20T05:40:01.344Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736c7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:12.990Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccc7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L79:43 for 'update' @ L79, false for 'update' @ L79
-[2026-10-20T05:40:01.375Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736c9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.022Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccc9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L80:43 for 'update' @ L80, false for 'update' @ L80
-[2026-10-20T05:40:01.407Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736cb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.049Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608cccb error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L81
-[2026-10-20T05:40:01.429Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736cd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.077Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608cccd error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L82:43 for 'update' @ L82, Property nonexistent is undefined on object. for 'update' @ L82
-[2026-10-20T05:40:01.454Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736cf error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.105Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608cccf error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L83:44 for 'update' @ L83, Property nonexistent is undefined on object. for 'update' @ L83
-[2026-10-20T05:40:01.479Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736d1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.127Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccd1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L84
-[2026-10-20T05:40:01.501Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736d3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.149Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccd3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L85:44 for 'update' @ L85, false for 'update' @ L85
-[2026-10-20T05:40:01.521Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736d5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.171Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccd5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L86
-[2026-10-20T05:40:01.548Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x29d736d7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:43:13.195Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x3608ccd7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L87:44 for 'update' @ L87, false for 'update' @ L87
 E01 constante false                                                    -> "false for" (propre)
 E02 1 == 2                                                             -> "false for" (propre)
