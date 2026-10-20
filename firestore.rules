@@ -1,0 +1,145 @@
+// ============================================================================
+// TRAD'ART — firestore.rules  v2  (NON PUBLIÉE — en revue)
+// Compatible avec outputs/index.html du 18 oct. 2026 (voir README, section 4)
+// AVANT PUBLICATION : remplacer REMPLACER_PAR_UID_MARC (voir README, section 3)
+// ============================================================================
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Identité / rôles --------------------------------------------
+    function signedIn() { return request.auth != null; }
+
+    // Admin = custom claim serveur `admin:true`  OU  UID explicite (immuable).
+    // Plus aucun test sur l'email : un email peut être non vérifié ou réutilisé.
+    function isAdmin() {
+      return signedIn() && (
+        request.auth.token.get('admin', false) == true
+        || request.auth.uid in ['REMPLACER_PAR_UID_MARC']
+      );
+    }
+
+    // ---------- Liste BLANCHE des champs de /members ------------------------
+    // Profil saisi par la personne
+    function profileKeys() {
+      return ['prenom','nom','email','whatsapp','pays','ville','age','service',
+              'concepts_connus','tan_trading','objectif_inter','tan_disponib',
+              'objectif_debutant','marches','platforme_siyal','niveau_risk',
+              'engagement1','engagement2','engagement3'];
+    }
+    // Déclarations de paiement (informatives : l'admin vérifie, jamais un droit d'accès)
+    function claimKeys() {
+      return ['service','plan','plan_label_fr','plan_label_ht','plan_amount',
+              'payment_method','txn_id','txn_ref'];
+    }
+    // Champs système que le client ne peut poser que sous conditions strictes
+    function systemKeys() { return ['accountType','status','createdAt','updatedAt']; }
+    function allowedKeys() { return profileKeys().concat(claimKeys()).concat(systemKeys()); }
+
+    function incoming() { return request.resource.data; }
+
+    function okStr(k, max) {
+      return !(k in incoming()) || (incoming()[k] is string && incoming()[k].size() <= max);
+    }
+    function textOk() {
+      return okStr('prenom',100) && okStr('nom',100) && okStr('email',254)
+          && okStr('whatsapp',40) && okStr('pays',80) && okStr('ville',80)
+          && okStr('objectif_inter',3000) && okStr('objectif_debutant',3000)
+          && okStr('txn_id',120) && okStr('txn_ref',120);
+    }
+    // L'email du profil doit être celui du compte connecté (anti-usurpation)
+    function emailMatches() {
+      return !('email' in incoming())
+          || incoming().email.lower() == request.auth.token.email.lower();
+    }
+
+    // status : jamais modifiable par le membre ; seulement posé à PENDING s'il n'existe pas
+    function statusUnchangedOrInitPending() {
+      return incoming().get('status', null) == resource.data.get('status', null)
+          || (!('status' in resource.data) && incoming().status == 'PENDING');
+    }
+    // accountType : free -> applicant autorisé, rien d'autre
+    function accountTypeSafe() {
+      return incoming().get('accountType', null) == resource.data.get('accountType', null)
+          || (resource.data.get('accountType','free') == 'free' && incoming().accountType == 'applicant');
+    }
+    // Déclarations de paiement verrouillées dès que le statut quitte PENDING
+    function claimEditable() {
+      return resource.data.get('status','PENDING') == 'PENDING'
+          || !incoming().diff(resource.data).affectedKeys().hasAny(claimKeys());
+    }
+    function validStatus(s) { return s in ['PENDING','APPROVED','PAID','ADMITTED','REJECTED']; }
+
+    // ---------- /members ----------------------------------------------------
+    match /members/{userId} {
+      allow get:  if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+
+      allow create: if signedIn() && request.auth.uid == userId
+        && incoming().keys().hasOnly(allowedKeys())
+        && incoming().get('accountType','free') in ['free','applicant']
+        && (!('status' in incoming()) || incoming().status == 'PENDING')
+        && emailMatches() && textOk()
+        && (!('createdAt' in incoming()) || incoming().createdAt == request.time)
+        && (!('updatedAt' in incoming()) || incoming().updatedAt == request.time);
+
+      // Propriétaire : on contrôle les champs RÉELLEMENT modifiés (affectedKeys),
+      // ce qui tolère d'éventuels champs anciens déjà présents mais non touchés.
+      allow update: if signedIn() && request.auth.uid == userId
+        && incoming().diff(resource.data).affectedKeys().hasOnly(allowedKeys())
+        && statusUnchangedOrInitPending()
+        && accountTypeSafe()
+        && claimEditable()
+        && emailMatches() && textOk()
+        && (incoming().get('createdAt',null) == resource.data.get('createdAt',null)
+            || (!('createdAt' in resource.data) && incoming().createdAt == request.time))
+        && (incoming().get('updatedAt',null) == resource.data.get('updatedAt',null)
+            || incoming().updatedAt == request.time);
+
+      // Admin : uniquement status (+ updatedAt), valeur validée
+      allow update: if isAdmin()
+        && incoming().diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+        && validStatus(incoming().status);
+
+      allow delete: if false;
+    }
+
+    // ---------- Droits d'accès (abonnements / VIP) --------------------------
+    // Jamais écrits par le membre. Admin : champs limités. Cible : écrit par le backend.
+    match /entitlements/{uid} {
+      allow get:  if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow list: if isAdmin();
+      allow create, update: if isAdmin()
+        && incoming().keys().hasOnly(['tier','plan','expiresAt','updatedAt'])
+        && incoming().tier in ['vip','full','academy','community']
+        && incoming().expiresAt is timestamp
+        && (!('updatedAt' in incoming()) || incoming().updatedAt == request.time);
+      allow delete: if false;
+    }
+
+    function hasVip() {
+      return signedIn() && (
+        isAdmin() || (
+          exists(/databases/$(database)/documents/entitlements/$(request.auth.uid))
+          && get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.tier in ['vip','full']
+          && get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.expiresAt > request.time
+        )
+      );
+    }
+
+    // ---------- Contenus : 3 niveaux, séparés par CHEMIN (les règles ne filtrent pas) ----
+    match /public_content/{id} { allow read: if true;        allow write: if false; }  // public
+    match /setups/{id}         { allow read: if signedIn();  allow write: if false; }  // membres connectés (inchangé)
+    match /products/{id}       { allow read: if signedIn();  allow write: if false; }  // membres connectés (inchangé)
+    match /vip_content/{id}    { allow read: if hasVip();    allow write: if false; }  // VIP : droit actif requis
+
+    // ---------- Compteur promo : lecture publique du seul document affiché ---
+    match /promo_codes/{id} {
+      allow get: if id == 'formation_az';
+      allow list, write: if false;
+    }
+
+    // Défaut : tout le reste est refusé
+    match /{document=**} { allow read, write: if false; }
+  }
+}
