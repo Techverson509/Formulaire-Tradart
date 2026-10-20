@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { test, before, after, beforeEach } from 'node:test';
 import { initializeTestEnvironment, assertSucceeds, assertFails } from '@firebase/rules-unit-testing';
-import { doc, getDoc, getDocs, collection, setDoc, updateDoc, deleteDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection, setDoc, updateDoc, deleteDoc, serverTimestamp, Timestamp, writeBatch, increment } from 'firebase/firestore';
 
 const ADMIN_UID = 'uid-marc-admin';
 const rules = readFileSync(new URL('../firestore.rules', import.meta.url), 'utf8')
@@ -186,7 +186,7 @@ test('S6f admin accorde un droit VIP valide -> OK ; champ superflu -> REFUSÉ', 
 });
 
 // ---------------- Autres protections
-test('X1 écriture client sur le compteur promo -> REFUSÉ', async () => {
+test('X1 écriture client sur le compteur promo (membre ou admin sans claim) -> REFUSÉ', async () => {
   await assertFails(setDoc(doc(user('u1'),'promo_codes/formation_az'), { uses: 0 }));
   await assertFails(setDoc(doc(admin(),'promo_codes/formation_az'), { uses: 0 }));
 });
@@ -232,3 +232,32 @@ test('K4 contrôle: membre sans status se pose PENDING mais PAS un autre statut'
   await seed((d) => setDoc(doc(d,'members/u1'), { email:'u1@ex.com', accountType:'free' }));
   await assertFails(updateDoc(doc(user('u1'),'members/u1'), { status:'PAID' }));
 });
+
+// ---------------- Réservation de place promo A-Z (validée par l'admin, jamais par le navigateur du client)
+const seedCounter = (uses = 3) => seed((d) => setDoc(doc(d,'promo_codes/formation_az'), { uses }));
+const reserve = (db, uid, uses) => { const b = writeBatch(db);
+  b.set(doc(db, `promo_claims/${uid}`), { promo:'formation_az', amount:150, validatedAt: serverTimestamp() });
+  b.update(doc(db, 'promo_codes/formation_az'), { uses, lastClaimUid: uid, updatedAt: serverTimestamp() });
+  return b.commit(); };
+test('P1 admin valide une place : claim + compteur +1 dans la même écriture -> OK', async () => {
+  await seedCounter(3); await assertSucceeds(reserve(admin(), 'u1', 4)); });
+test('P2 double réservation pour la même personne -> REFUSÉ', async () => {
+  await seedCounter(3); await assertSucceeds(reserve(admin(), 'u1', 4)); await assertFails(reserve(admin(), 'u1', 5)); });
+test('P3 incrément de 2 -> REFUSÉ', async () => { await seedCounter(3); await assertFails(reserve(admin(), 'u1', 5)); });
+test('P4 dépassement de 10 places -> REFUSÉ ; la 10e -> OK', async () => {
+  await seedCounter(9); await assertSucceeds(reserve(admin(), 'u1', 10)); await assertFails(reserve(admin(), 'u2', 11)); });
+test('P5 compteur modifié sans créer le claim -> REFUSÉ', async () => {
+  await seedCounter(3); await assertFails(updateDoc(doc(admin(),'promo_codes/formation_az'), { uses:4, lastClaimUid:'u1' })); });
+test('P6 claim créé sans incrémenter le compteur -> REFUSÉ', async () => {
+  await seedCounter(3); await assertFails(setDoc(doc(admin(),'promo_claims/u1'), { promo:'formation_az', amount:150, validatedAt: serverTimestamp() })); });
+test('P7 membre (non admin) tente claim + compteur -> REFUSÉ', async () => {
+  await seedCounter(3); await assertFails(reserve(user('u1'), 'u1', 4)); });
+test('P8 membre remet le compteur à 0 / le décrémente -> REFUSÉ', async () => {
+  await seedCounter(3); await assertFails(updateDoc(doc(user('u1'),'promo_codes/formation_az'), { uses:0 }));
+  await assertFails(updateDoc(doc(admin(),'promo_codes/formation_az'), { uses:2, lastClaimUid:'u1' })); });
+test('P9 membre lit son propre claim -> OK ; celui d\'un autre -> REFUSÉ ; anonyme -> REFUSÉ', async () => {
+  await seed(async (d) => { await setDoc(doc(d,'promo_claims/u1'), { promo:'formation_az', amount:150 }); await setDoc(doc(d,'promo_claims/u2'), { promo:'formation_az', amount:150 }); });
+  await assertSucceeds(getDoc(doc(user('u1'),'promo_claims/u1'))); await assertFails(getDoc(doc(user('u1'),'promo_claims/u2'))); await assertFails(getDoc(doc(anon(),'promo_claims/u1'))); });
+test('P10 modification ou suppression d\'un claim existant, même par admin -> REFUSÉ', async () => {
+  await seed((d) => setDoc(doc(d,'promo_claims/u1'), { promo:'formation_az', amount:150 }));
+  await assertFails(updateDoc(doc(admin(),'promo_claims/u1'), { amount:1 })); await assertFails(deleteDoc(doc(admin(),'promo_claims/u1'))); });

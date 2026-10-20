@@ -1,5 +1,5 @@
 // ============================================================================
-// TRAD'ART — firestore.rules  v2  (NON PUBLIÉE — en revue)
+// TRAD'ART — firestore.rules  v2.1  (NON PUBLIÉE — en revue)
 // Compatible avec outputs/index.html du 18 oct. 2026 (voir README, section 4)
 // AVANT PUBLICATION : remplacer REMPLACER_PAR_UID_MARC (voir README, section 3)
 // ============================================================================
@@ -133,10 +133,35 @@ service cloud.firestore {
     match /products/{id}       { allow read: if signedIn();  allow write: if false; }  // membres connectés (inchangé)
     match /vip_content/{id}    { allow read: if hasVip();    allow write: if false; }  // VIP : droit actif requis
 
-    // ---------- Compteur promo : lecture publique du seul document affiché ---
+    // ---------- Places promo (formation A-Z) : réservation validée par l'ADMIN --------
+    // Principe : jamais d'écriture depuis le navigateur du client. Une place n'est confirmée que
+    // lorsque l'admin valide le paiement : dans UNE transaction il crée promo_claims/{uid}
+    // (un seul par personne, créable une seule fois) ET incrémente le compteur de exactement 1.
     match /promo_codes/{id} {
-      allow get: if id == 'formation_az';
-      allow list, write: if false;
+      allow get: if id == 'formation_az';          // affichage public "places restantes"
+      allow list: if false;
+      allow update: if id == 'formation_az' && isAdmin()
+        && incoming().keys().hasOnly(['uses','lastClaimUid','updatedAt'])
+        && incoming().uses == resource.data.get('uses', 0) + 1
+        && incoming().uses <= 10
+        && incoming().lastClaimUid is string
+        && !exists(/databases/$(database)/documents/promo_claims/$(incoming().lastClaimUid))
+        && existsAfter(/databases/$(database)/documents/promo_claims/$(incoming().lastClaimUid))
+        && (!('updatedAt' in incoming()) || incoming().updatedAt == request.time);
+      allow create, delete: if false;
+    }
+    match /promo_claims/{uid} {
+      allow get:  if signedIn() && (isAdmin() || request.auth.uid == uid);
+      allow list: if isAdmin();
+      allow create: if isAdmin()
+        && incoming().keys().hasOnly(['promo','amount','validatedAt'])
+        && incoming().promo == 'formation_az'
+        && incoming().amount is number
+        && incoming().validatedAt == request.time
+        && getAfter(/databases/$(database)/documents/promo_codes/formation_az).data.lastClaimUid == uid
+        && getAfter(/databases/$(database)/documents/promo_codes/formation_az).data.uses
+           == get(/databases/$(database)/documents/promo_codes/formation_az).data.get('uses', 0) + 1;
+      allow update, delete: if false;
     }
 
     // Défaut : tout le reste est refusé
