@@ -1,0 +1,114 @@
+[33m[1m⚠  emulators:[22m[39m You are not currently authenticated so some features may not work correctly. Please run [1mfirebase login[22m to authenticate the CLI.
+[36m[1mi  emulators:[22m[39m Starting emulators: firestore
+[36m[1mi  emulators:[22m[39m Detected demo project ID "demo-diag", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+[36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
+[32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
+[36m[1mi [22m[39m Running script: [1mnode diag/diag.mjs[22m
+[2026-10-20T05:38:25.455Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05994 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L76:43 for 'update' @ L76, false for 'update' @ L76
+[2026-10-20T05:38:25.498Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05996 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L77:43 for 'update' @ L77, false for 'update' @ L77
+[2026-10-20T05:38:25.536Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e05998 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
+[2026-10-20T05:38:25.844Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059aa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L75:43 for 'update' @ L75, false for 'update' @ L75
+[2026-10-20T05:38:25.928Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059b0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
+[2026-10-20T05:38:26.336Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059c8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
+[2026-10-20T05:38:26.712Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059e0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L78:43 for 'update' @ L78, false for 'update' @ L78
+[2026-10-20T05:38:26.770Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059e4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L80:43 for 'update' @ L80, false for 'update' @ L80
+[2026-10-20T05:38:26.942Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059ef error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L87:43 for 'create' @ L87, false for 'create' @ L87
+[2026-10-20T05:38:27.097Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x28e059f7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L88:43 for 'create' @ L88, false for 'create' @ L88
+
+### S1a update {status:PAID} (seed PENDING)
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> EVAL-ERROR
+T4a get(status)==get(status)                         -> EVAL-ERROR
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S2a update {role:admin}
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> EVAL-ERROR
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### K1 control update {whatsapp}
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S3c update {plan_amount} (seed APPROVED)
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> EVAL-ERROR
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S1c create {...signup, status:PAID}
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> EVAL-ERROR
+C6 emailMatches()                                    -> ALLOW
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
+
+### X3 create email=victime@ex.com
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> ALLOW
+C6 emailMatches()                                    -> EVAL-ERROR
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
+
+### C1 control create signup normal
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> ALLOW
+C6 emailMatches()                                    -> ALLOW
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
+[32m[1m✔ [22m[39m Script exited successfully (code 0)
+[36m[1mi  emulators:[22m[39m Shutting down emulators.
+[36m[1mi  firestore:[22m[39m Stopping Firestore Emulator
+[36m[1mi  hub:[22m[39m Stopping emulator hub
+[36m[1mi  logging:[22m[39m Stopping Logging Emulator

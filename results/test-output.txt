@@ -7,148 +7,148 @@
 [36m[1mi  firestore:[22m[39m Firestore Emulator logging to [1mfirestore-debug.log[22m
 [32m[1m✔  firestore:[22m[39m Firestore Emulator UI websocket is running on 9150.
 [36m[1mi [22m[39m Running script: [1mnode --test --test-reporter=spec test/[22m
-✔ C1 inscription gratuite (payload réel du site) -> OK (2161.447206ms)
-✔ C2 candidature (set merge, status PENDING) -> OK (234.141701ms)
-✔ C3 enregistrement du paiement déclaré (set merge) -> OK tant que PENDING (118.131833ms)
-✔ C4 membre lit son propre profil -> OK (123.049623ms)
-✔ C5 membre connecté lit setups et products (comportement actuel conservé) -> OK (102.717432ms)
-✔ C6 re-soumission par un membre APPROVED en gardant son statut -> OK (champs profil seulement) (90.454847ms)
-[2026-10-20T05:16:05.140Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48da3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ C1 inscription gratuite (payload réel du site) -> OK (1397.146519ms)
+✔ C2 candidature (set merge, status PENDING) -> OK (129.496452ms)
+✔ C3 enregistrement du paiement déclaré (set merge) -> OK tant que PENDING (80.154193ms)
+✔ C4 membre lit son propre profil -> OK (48.449204ms)
+✔ C5 membre connecté lit setups et products (comportement actuel conservé) -> OK (77.170743ms)
+✔ C6 re-soumission par un membre APPROVED en gardant son statut -> OK (champs profil seulement) (54.567765ms)
+[2026-10-20T05:38:17.987Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a728 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:24 for 'create' @ L78, false for 'create' @ L168, evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ C7 re-soumission qui renvoie status:"PENDING" par un membre APPROVED -> REFUSÉ (doc le changement frontend F1) (93.915096ms)
-✔ C8 compteur promo lisible sans connexion -> OK (62.400103ms)
-[2026-10-20T05:16:05.275Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48da7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ C7 re-soumission qui renvoie status:"PENDING" par un membre APPROVED -> REFUSÉ (doc le changement frontend F1) (57.609735ms)
+✔ C8 compteur promo lisible sans connexion -> OK (46.840153ms)
+[2026-10-20T05:38:18.086Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a72c error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S1a membre passe son statut à PAID (update) -> REFUSÉ (71.641509ms)
-[2026-10-20T05:16:05.344Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48da9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S1a membre passe son statut à PAID (update) -> REFUSÉ (51.067757ms)
+[2026-10-20T05:38:18.129Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a72e error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:24 for 'create' @ L78, false for 'create' @ L168, evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S1b membre passe son statut à APPROVED (set merge) -> REFUSÉ (68.818433ms)
-[2026-10-20T05:16:05.403Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48daa error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S1b membre passe son statut à APPROVED (set merge) -> REFUSÉ (42.58054ms)
+[2026-10-20T05:38:18.157Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a72f error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:24 for 'create' @ L78, false for 'create' @ L168, evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'create' @ L78, false for 'create' @ L168
-✔ S1c membre crée son profil directement avec status PAID -> REFUSÉ (58.970483ms)
-[2026-10-20T05:16:05.463Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dac error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S1c membre crée son profil directement avec status PAID -> REFUSÉ (28.302536ms)
+[2026-10-20T05:38:18.198Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a731 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S1d membre sans statut se pose lui-même ADMITTED -> REFUSÉ (59.332605ms)
-[2026-10-20T05:16:05.541Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dae error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S1d membre sans statut se pose lui-même ADMITTED -> REFUSÉ (40.866061ms)
+[2026-10-20T05:38:18.253Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a733 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S2a membre s'attribue role:"admin" -> REFUSÉ (78.047714ms)
-[2026-10-20T05:16:05.598Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S2a membre s'attribue role:"admin" -> REFUSÉ (54.881702ms)
+[2026-10-20T05:38:18.293Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a735 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.640Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db1 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.320Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a736 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S2b membre ajoute admin:true / isAdmin:true -> REFUSÉ (99.539972ms)
-[2026-10-20T05:16:05.701Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S2b membre ajoute admin:true / isAdmin:true -> REFUSÉ (67.037542ms)
+[2026-10-20T05:38:18.362Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a738 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.735Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.382Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a739 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S2c membre change accountType en "admin" ou "vip" -> REFUSÉ (94.095762ms)
-[2026-10-20T05:16:05.788Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db6 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S2c membre change accountType en "admin" ou "vip" -> REFUSÉ (61.723861ms)
+[2026-10-20T05:38:18.418Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a73b error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S2d un compte avec l'email de l'admin mais mauvais UID n'est pas admin -> REFUSÉ (53.173405ms)
-[2026-10-20T05:16:05.850Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S2d un compte avec l'email de l'admin mais mauvais UID n'est pas admin -> REFUSÉ (35.558892ms)
+[2026-10-20T05:38:18.453Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a73d error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.876Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48db9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.470Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a73e error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.906Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dba error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.504Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a73f error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.941Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dbb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.526Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a740 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:05.974Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dbc error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.554Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a741 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:06.002Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dbd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:18.580Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a742 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S3a membre ajoute subscription/vip/access/plan_expires -> REFUSÉ (213.742955ms)
-[2026-10-20T05:16:06.039Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dbe error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S3a membre ajoute subscription/vip/access/plan_expires -> REFUSÉ (162.284803ms)
+[2026-10-20T05:38:18.599Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a743 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L112, false for 'create' @ L168, false for 'update' @ L112, false for 'update' @ L168
-✔ S3b membre s'écrit un droit dans /entitlements -> REFUSÉ (36.664288ms)
-[2026-10-20T05:16:06.095Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dc0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S3b membre s'écrit un droit dans /entitlements -> REFUSÉ (18.737058ms)
+[2026-10-20T05:38:18.635Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a745 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S3c membre modifie ses déclarations de paiement APRÈS approbation -> REFUSÉ (56.339341ms)
-✔ S4a anonyme lit un profil / liste members -> REFUSÉ (108.336165ms)
-✔ S4b anonyme lit setups / products / vip_content / entitlements -> REFUSÉ (108.580104ms)
-[2026-10-20T05:16:06.425Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dcb error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S3c membre modifie ses déclarations de paiement APRÈS approbation -> REFUSÉ (36.662903ms)
+✔ S4a anonyme lit un profil / liste members -> REFUSÉ (59.617834ms)
+✔ S4b anonyme lit setups / products / vip_content / entitlements -> REFUSÉ (70.671522ms)
+[2026-10-20T05:38:18.811Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a750 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L131, false for 'create' @ L168, false for 'update' @ L131, false for 'update' @ L168
-✔ S4c anonyme lit public_content -> OK ; écrit -> REFUSÉ (113.210094ms)
-✔ S4d membre lit le profil d'un autre membre / liste members -> REFUSÉ (93.157892ms)
-✔ S5a connecté sans abonnement lit vip_content -> REFUSÉ (62.947521ms)
-✔ S5b status PAID/ADMITTED seul ne donne PAS accès VIP -> REFUSÉ (66.835125ms)
-✔ S5c droit VIP actif -> OK ; expiré -> REFUSÉ ; mauvais tier -> REFUSÉ (113.883958ms)
-✔ S5d membre lit son propre droit -> OK ; celui d'un autre -> REFUSÉ (54.840049ms)
-✔ S6a admin (UID autorisé) change le statut d'un membre -> OK (44.346276ms)
-✔ S6b admin (custom claim) change le statut -> OK (43.24195ms)
-✔ S6c admin liste les candidats (orderBy createdAt) -> OK (64.573285ms)
-✔ S6d admin avec email vérifié = false (cas réel probable) garde l'accès -> OK (42.937573ms)
-[2026-10-20T05:16:07.063Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S4c anonyme lit public_content -> OK ; écrit -> REFUSÉ (44.70364ms)
+✔ S4d membre lit le profil d'un autre membre / liste members -> REFUSÉ (44.406702ms)
+✔ S5a connecté sans abonnement lit vip_content -> REFUSÉ (40.690198ms)
+✔ S5b status PAID/ADMITTED seul ne donne PAS accès VIP -> REFUSÉ (34.972157ms)
+✔ S5c droit VIP actif -> OK ; expiré -> REFUSÉ ; mauvais tier -> REFUSÉ (68.890281ms)
+✔ S5d membre lit son propre droit -> OK ; celui d'un autre -> REFUSÉ (49.335843ms)
+✔ S6a admin (UID autorisé) change le statut d'un membre -> OK (49.997769ms)
+✔ S6b admin (custom claim) change le statut -> OK (34.333697ms)
+✔ S6c admin liste les candidats (orderBy createdAt) -> OK (49.05505ms)
+✔ S6d admin avec email vérifié = false (cas réel probable) garde l'accès -> OK (26.635317ms)
+[2026-10-20T05:38:19.237Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a768 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L88, evaluation error at L100:24 for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:07.087Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.252Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a769 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L88, evaluation error at L100:24 for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:07.106Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.264Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a76a error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L88, evaluation error at L100:24 for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ S6e admin ne peut modifier QUE status : changer email/plan -> REFUSÉ ; statut invalide -> REFUSÉ (92.40381ms)
-[2026-10-20T05:16:07.157Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de7 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S6e admin ne peut modifier QUE status : changer email/plan -> REFUSÉ ; statut invalide -> REFUSÉ (54.59434ms)
+[2026-10-20T05:38:19.293Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a76c error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L112, false for 'create' @ L168, false for 'update' @ L112, false for 'update' @ L168
-✔ S6f admin accorde un droit VIP valide -> OK ; champ superflu -> REFUSÉ (50.806271ms)
-[2026-10-20T05:16:07.184Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de8 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ S6f admin accorde un droit VIP valide -> OK ; champ superflu -> REFUSÉ (28.471731ms)
+[2026-10-20T05:38:19.310Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a76d error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L151, false for 'create' @ L168, false for 'update' @ L143, false for 'update' @ L168
-[2026-10-20T05:16:07.209Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48de9 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.323Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a76e error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L151, false for 'create' @ L168, evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'create' @ L151, false for 'create' @ L168
-✔ X1 écriture client sur le compteur promo (membre ou admin sans claim) -> REFUSÉ (52.13179ms)
-✔ X2 autre document promo non lisible publiquement -> REFUSÉ (37.762567ms)
-[2026-10-20T05:16:07.281Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dec error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X1 écriture client sur le compteur promo (membre ou admin sans claim) -> REFUSÉ (29.809266ms)
+✔ X2 autre document promo non lisible publiquement -> REFUSÉ (25.053808ms)
+[2026-10-20T05:38:19.366Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a771 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L78:24 for 'create' @ L78, false for 'create' @ L168, evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'create' @ L78, false for 'create' @ L168
-✔ X3 usurpation d'email dans le profil -> REFUSÉ (34.446973ms)
-[2026-10-20T05:16:07.331Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dee error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X3 usurpation d'email dans le profil -> REFUSÉ (17.85526ms)
+[2026-10-20T05:38:19.397Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a773 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-[2026-10-20T05:16:07.372Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48df0 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.417Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a775 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'delete' @ L104, false for 'delete' @ L168
-✔ X4 écrire dans le profil d'un autre -> REFUSÉ ; suppression de son profil -> REFUSÉ (90.790945ms)
-[2026-10-20T05:16:07.424Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48df2 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X4 écrire dans le profil d'un autre -> REFUSÉ ; suppression de son profil -> REFUSÉ (51.209654ms)
+[2026-10-20T05:38:19.454Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a777 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ X5 champ non prévu (ex. "notes") ajouté par le membre -> REFUSÉ (52.599815ms)
-[2026-10-20T05:16:07.459Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48df3 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X5 champ non prévu (ex. "notes") ajouté par le membre -> REFUSÉ (36.719919ms)
+[2026-10-20T05:38:19.477Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a778 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L78, false for 'create' @ L168, evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'create' @ L78, false for 'create' @ L168
-✔ X6 createdAt falsifié -> REFUSÉ (34.096155ms)
-[2026-10-20T05:16:07.486Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48df4 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X6 createdAt falsifié -> REFUSÉ (22.795649ms)
+[2026-10-20T05:38:19.492Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a779 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L132, false for 'create' @ L168, false for 'update' @ L132, false for 'update' @ L168
-[2026-10-20T05:16:07.510Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48df5 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.504Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a77a error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L133, false for 'create' @ L168, false for 'update' @ L133, false for 'update' @ L168
-✔ X7 écriture sur setups/products par un admin client -> REFUSÉ (console seulement) (51.047351ms)
-✔ K1 contrôle: membre (doc ancien sans createdAt/updatedAt) modifie son whatsapp -> OK (48.330775ms)
-✔ K2 contrôle: idem avec updatedAt serveur -> OK (47.432861ms)
-✔ K3 contrôle: doc free sans status -> candidature pose PENDING -> OK (49.839206ms)
-[2026-10-20T05:16:07.716Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48dfd error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ X7 écriture sur setups/products par un admin client -> REFUSÉ (console seulement) (27.741753ms)
+✔ K1 contrôle: membre (doc ancien sans createdAt/updatedAt) modifie son whatsapp -> OK (29.205618ms)
+✔ K2 contrôle: idem avec updatedAt serveur -> OK (46.33952ms)
+✔ K3 contrôle: doc free sans status -> candidature pose PENDING -> OK (39.786147ms)
+[2026-10-20T05:38:19.661Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a782 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L88:24 for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168, false for 'update' @ L88, false for 'update' @ L100, false for 'update' @ L168
-✔ K4 contrôle: membre sans status se pose PENDING mais PAS un autre statut (59.904467ms)
-✔ P1 admin valide une place : claim + compteur +1 dans la même écriture -> OK (56.096318ms)
-[2026-10-20T05:16:07.850Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e02 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ K4 contrôle: membre sans status se pose PENDING mais PAS un autre statut (40.622385ms)
+✔ P1 admin valide une place : claim + compteur +1 dans la même écriture -> OK (30.773377ms)
+[2026-10-20T05:38:19.738Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a787 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L156:24 for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L164, false for 'update' @ L168, evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'update' @ L164, false for 'update' @ L168
-✔ P2 double réservation pour la même personne -> REFUSÉ (78.160182ms)
-[2026-10-20T05:16:07.912Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e04 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P2 double réservation pour la même personne -> REFUSÉ (46.337206ms)
+[2026-10-20T05:38:19.765Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a789 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L156:24 for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L164, false for 'update' @ L168, evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'create' @ L156, false for 'create' @ L168
-✔ P3 incrément de 2 -> REFUSÉ (61.680732ms)
-[2026-10-20T05:16:07.987Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e07 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P3 incrément de 2 -> REFUSÉ (27.247281ms)
+[2026-10-20T05:38:19.820Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a78c error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L156:24 for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L164, false for 'update' @ L168, evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L143, false for 'update' @ L168
-✔ P4 dépassement de 10 places -> REFUSÉ ; la 10e -> OK (75.510185ms)
-[2026-10-20T05:16:08.026Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e09 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P4 dépassement de 10 places -> REFUSÉ ; la 10e -> OK (54.60803ms)
+[2026-10-20T05:38:19.849Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a78e error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'update' @ L143, false for 'update' @ L168
-✔ P5 compteur modifié sans créer le claim -> REFUSÉ (38.630231ms)
-[2026-10-20T05:16:08.069Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e0b error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P5 compteur modifié sans créer le claim -> REFUSÉ (29.49328ms)
+[2026-10-20T05:38:19.878Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a790 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L156:24 for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L164, false for 'update' @ L168, false for 'create' @ L156, false for 'create' @ L168
-✔ P6 claim créé sans incrémenter le compteur -> REFUSÉ (42.807554ms)
-[2026-10-20T05:16:08.112Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e0d error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P6 claim créé sans incrémenter le compteur -> REFUSÉ (28.559366ms)
+[2026-10-20T05:38:19.906Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a792 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'create' @ L156, false for 'create' @ L168, false for 'update' @ L164, false for 'update' @ L168
-✔ P7 membre (non admin) tente claim + compteur -> REFUSÉ (42.959535ms)
-[2026-10-20T05:16:08.151Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e0f error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P7 membre (non admin) tente claim + compteur -> REFUSÉ (27.462033ms)
+[2026-10-20T05:38:19.934Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a794 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L143, false for 'update' @ L168
-[2026-10-20T05:16:08.173Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e10 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:19.945Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a795 error. Code: 7 Message: 7 PERMISSION_DENIED: 
 evaluation error at L143:24 for 'update' @ L143, false for 'update' @ L168, false for 'update' @ L143, false for 'update' @ L168
-✔ P8 membre remet le compteur à 0 / le décrémente -> REFUSÉ (60.502781ms)
-✔ P9 membre lit son propre claim -> OK ; celui d'un autre -> REFUSÉ ; anonyme -> REFUSÉ (73.571259ms)
-[2026-10-20T05:16:08.291Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e16 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+✔ P8 membre remet le compteur à 0 / le décrémente -> REFUSÉ (39.235195ms)
+✔ P9 membre lit son propre claim -> OK ; celui d'un autre -> REFUSÉ ; anonyme -> REFUSÉ (47.767292ms)
+[2026-10-20T05:38:20.019Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a79b error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'update' @ L164, false for 'update' @ L168
-[2026-10-20T05:16:08.306Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x72e48e17 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+[2026-10-20T05:38:20.032Z]  @firebase/firestore: Firestore (10.14.1): GrpcConnection RPC 'Write' stream 0x4662a79c error. Code: 7 Message: 7 PERMISSION_DENIED: 
 false for 'delete' @ L164, false for 'delete' @ L168
-✔ P10 modification ou suppression d'un claim existant, même par admin -> REFUSÉ (59.328442ms)
+✔ P10 modification ou suppression d'un claim existant, même par admin -> REFUSÉ (39.005681ms)
 ℹ tests 54
 ℹ suites 0
 ℹ pass 54
@@ -156,7 +156,7 @@ false for 'delete' @ L164, false for 'delete' @ L168
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 6429.278549
+ℹ duration_ms 4092.128913
 [32m[1m✔ [22m[39m Script exited successfully (code 0)
 [36m[1mi  emulators:[22m[39m Shutting down emulators.
 [36m[1mi  firestore:[22m[39m Stopping Firestore Emulator

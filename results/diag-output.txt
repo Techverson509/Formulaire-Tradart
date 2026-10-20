@@ -1,0 +1,83 @@
+
+### S1a update {status:PAID} (seed PENDING)
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> EVAL-ERROR
+T4a get(status)==get(status)                         -> EVAL-ERROR
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S2a update {role:admin}
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> EVAL-ERROR
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### K1 control update {whatsapp}
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> ALLOW
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S3c update {plan_amount} (seed APPROVED)
+T1 signedIn()                                        -> ALLOW
+T2 uid==userId                                       -> ALLOW
+T3 diff.affectedKeys.hasOnly(allowedKeys())          -> ALLOW
+T4 statusUnchangedOrInitPending()                    -> ALLOW
+T4a get(status)==get(status)                         -> ALLOW
+T4b initPending branch                               -> EVAL-ERROR
+T5 accountTypeSafe()                                 -> ALLOW
+T6 claimEditable()                                   -> EVAL-ERROR
+T7 emailMatches()                                    -> ALLOW
+T8 textOk()                                          -> ALLOW
+T9 createdAt group                                   -> ALLOW
+T10 updatedAt group                                  -> ALLOW
+
+### S1c create {...signup, status:PAID}
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> EVAL-ERROR
+C6 emailMatches()                                    -> ALLOW
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
+
+### X3 create email=victime@ex.com
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> ALLOW
+C6 emailMatches()                                    -> EVAL-ERROR
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
+
+### C1 control create signup normal
+C3 keys.hasOnly(allowedKeys())                       -> ALLOW
+C4 accountType in                                    -> ALLOW
+C5 status absent|PENDING                             -> ALLOW
+C6 emailMatches()                                    -> ALLOW
+C7 textOk()                                          -> ALLOW
+C8 createdAt                                         -> ALLOW
+C9 updatedAt                                         -> ALLOW
