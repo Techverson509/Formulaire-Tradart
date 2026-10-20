@@ -33,6 +33,10 @@ jobs:
           set +e
           npx firebase emulators:exec --only firestore --project demo-diag "node diag/diag.mjs" > results/diag-console.txt 2>&1
           tail -n 120 results/diag-console.txt
+      - name: Diagnostic 2
+        run: |
+          set +e
+          npx firebase emulators:exec --only firestore --project demo-diag2 "node diag/diag2.mjs" > results/diag2-console.txt 2>&1
       - name: Publier les résultats sur la branche
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
